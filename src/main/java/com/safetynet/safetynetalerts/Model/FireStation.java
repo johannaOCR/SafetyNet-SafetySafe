@@ -22,7 +22,7 @@ public class FireStation {
     }
 
     public Set<String> getAddresses() {
-        return new HashSet<>(addresses);
+        return addresses.stream().collect(Collectors.toSet());
     }
 
     @Override
