@@ -8,7 +8,8 @@ public class FireStation {
     private Set<String> addresses = new HashSet<>();
     private String stationNumber;
 
-    public FireStation(String stationNumber) {
+    public FireStation(Set<String> addresses, String stationNumber) {
+        this.addresses = addresses;
         this.stationNumber = stationNumber;
     }
 
