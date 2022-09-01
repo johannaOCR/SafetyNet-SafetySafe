@@ -21,7 +21,7 @@ public class FireStationController {
 //    elle doit fournir un décompte du nombre d'adultes et du nombre d'enfants (tout individu âgé de 18 ans ou
 //            moins) dans la zone desservie.
 @GetMapping(value = "/firestation", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<?> firestation(@RequestParam int stationNumber) {
+public ResponseEntity<?> GetFirestation(@RequestParam int stationNumber) {
 
 }
 //    http://localhost:8080/fire?address=<address>
@@ -29,7 +29,7 @@ public ResponseEntity<?> firestation(@RequestParam int stationNumber) {
 //    de pompiers la desservant. La liste doit inclure le nom, le numéro de téléphone, l'âge et les antécédents
 //    médicaux (médicaments, posologie et allergies) de chaque personne.
 @GetMapping(value = "/fire", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<?> fire(@RequestParam String adresse) {
+public ResponseEntity<?> GetFire(@RequestParam String adresse) {
 
 }
 //    http://localhost:8080/flood/stations?stations=<a list of station_numbers>
@@ -37,7 +37,7 @@ public ResponseEntity<?> fire(@RequestParam String adresse) {
 //    personnes par adresse. Elle doit aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et
 //    faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.
 @GetMapping(value = "/flood/stations", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<?> flood(@RequestParam List<Integer> stationNumber) {
+public ResponseEntity<?> GetFlood(@RequestParam List<Integer> stationNumber) {
 
 }
 
