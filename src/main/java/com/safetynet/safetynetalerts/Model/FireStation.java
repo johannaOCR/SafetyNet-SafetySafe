@@ -1,15 +1,18 @@
 package com.safetynet.safetynetalerts.Model;
 
+
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class FireStation {
-    private Set<String> addresses = new HashSet<>();
-    private String stationNumber;
 
-    public FireStation(Set<String> addresses, String stationNumber) {
-        this.addresses = addresses;
+public class FireStation {
+
+    private Set<String> addresses = new HashSet<>();
+    private int stationNumber;
+
+    public FireStation(int stationNumber) {
         this.stationNumber = stationNumber;
     }
 
@@ -18,7 +21,7 @@ public class FireStation {
         return this;
     }
 
-    public String getStationNumber() {
+    public int getStationNumber() {
         return stationNumber;
     }
 
@@ -28,6 +31,9 @@ public class FireStation {
 
     @Override
     public String toString() {
-        return stationNumber.concat(": ") + String.join(", ", addresses);
+        return "FireStation{" +
+                "addresses=" + addresses +
+                ", stationNumber=" + stationNumber +
+                '}';
     }
 }
