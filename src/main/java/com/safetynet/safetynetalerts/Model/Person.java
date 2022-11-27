@@ -1,9 +1,11 @@
 package com.safetynet.safetynetalerts.Model;
 
 
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
 
 public class Person {
         public final String firstName;
@@ -64,8 +66,8 @@ public class Person {
                 this.email = email;
                 return this;
             }
-            public PersonBuilder firstName(MedicalRecord medicalRecord) {
-                this.firstName = firstName;
+            public PersonBuilder medicalRecord(MedicalRecord medicalRecord) {
+                this.medicalrecord = medicalRecord;
                 return this;
             }
 
@@ -112,12 +114,12 @@ public class Person {
     public String getEmail() {
         return email;
     }
+
     public Boolean isMajeur () {
         Date dateNow = new Date(System.currentTimeMillis());
         try {
-            Date Formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(String.valueOf(this.medicalrecord.birthdate));
-            long between = dateNow.getTime() - Formatter.getTime();
-            if (between/(1000*60*60*24) > 6570 ){
+            long between = dateNow.getTime() - medicalrecord.birthdate.getTime();
+            if ((between/(24*60*60*1000)) > 6570 ){
                 return true;
             }
             return false;
@@ -127,18 +129,48 @@ public class Person {
         return null;
     }
 
+    public Boolean isEighteenOrLess () {
+        Date dateNow = new Date(System.currentTimeMillis());
+        try {
+            long between = dateNow.getTime() - medicalrecord.birthdate.getTime();
+            if ((between/(24*60*60*1000)) > 6570 ){
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+    public int getAge(Date birthDate) {
+        LocalDate birthdate = convertToLocalDateViaMilisecond(birthDate);
+        Date dateNow = new Date(System.currentTimeMillis());
+        LocalDate localDateNow = convertToLocalDateViaMilisecond(dateNow);
+        if ((birthDate != null) && (dateNow != null)) {
+            return Period.between(birthdate, localDateNow).getYears();
+        } else {
+            return 0;
+        }
+    }
+    public static LocalDate convertToLocalDateViaMilisecond(Date dateToConvert) {
+        return Instant.ofEpochMilli(dateToConvert.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
     @Override
     public String toString() {
-        return "\n" + "Person {"
-                + "\n" +"firstName = '" + firstName + '\'' + "\n"+
-                "lastName = '" + lastName + '\'' + "\n"+
-                "phone = '" + phone + '\'' + "\n"+
-                "zip = '" + zip + '\'' + "\n"+
-                "medicalrecord ==> " + medicalrecord.toString() + "\n"+
-                "address = '" + address + '\'' + "\n"+
-                "city = '" + city + '\'' + "\n"+
-                "email = '" + email + '\'' + "\n"+
-                '}' + "\n" ;
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", zip='" + zip + '\'' +
+                ", medicalrecord=" + medicalrecord +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
 

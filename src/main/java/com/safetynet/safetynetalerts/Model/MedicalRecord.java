@@ -4,16 +4,17 @@ import com.jsoniter.any.Any;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class MedicalRecord {
     private String firstname;
     private String lastname;
-    public List<Any> medications;
-    public List<Any> allergies;
+    public List<String> medications;
+    public List<String> allergies;
     public Date birthdate;
 
-    public MedicalRecord(String firstname, String lastname, List<Any> medications, List<Any> allergies, Date birthdate) {
+    public MedicalRecord(String firstname, String lastname,List<String> medications,List<String> allergies, Date birthdate) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.medications = medications;
@@ -21,19 +22,19 @@ public class MedicalRecord {
         this.birthdate = birthdate;
     }
 
-    public List<Any> getMedications() {
+    public List<String> getMedications() {
         return medications;
     }
 
-    public void setMedications(List<Any> medications) {
+    public void setMedications(List<String>medications) {
         this.medications = medications;
     }
 
-    public List<Any> getAllergies() {
+    public List<String>  getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(List<Any> allergies) {
+    public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
     }
 
@@ -63,13 +64,12 @@ public class MedicalRecord {
 
     @Override
     public String toString() {
-        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yy");
-        return  "\n" +"MedicalRecord {" + "\n" +
-                "firstname = '" + firstname + '\'' + "\n"+
-                "lastname = '" + lastname + '\'' + "\n"+
-                "medications = " + medications + "\n"+
-                "allergies = " + allergies + "\n"+
-                "birthdate = " + formater.format(birthdate) + "\n"+
-                '}'+ "\n";
+        return "MedicalRecord{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                ", birthdate=" + birthdate +
+                '}';
     }
 }

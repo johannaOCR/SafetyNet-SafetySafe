@@ -145,11 +145,19 @@ public class ImportData {
         List<MedicalRecord> medicalRecords = new ArrayList<>();
         medicalRecordAny.forEach(a -> {
             try {
+                List<String> medication = new ArrayList<>();
+                List<String> allergies = new ArrayList<>();
+                for (Any medi : a.get("medications").asList()) {
+                    medication.add(medi.toString());
+                }
+                for (Any allergie : a.get("allergies").asList()) {
+                    allergies.add(allergie.toString());
+                }
                 medicalRecords.add(new MedicalRecord(
                         a.get("firstName").toString(),
                         a.get("lastName").toString(),
-                        a.get("medications").asList(),
-                        a.get("allergies").asList(),
+                        medication,
+                        allergies,
                         new SimpleDateFormat("dd/MM/yyyy").parse(a.get("birthdate").toString())
                 ));
             } catch (ParseException e) {
