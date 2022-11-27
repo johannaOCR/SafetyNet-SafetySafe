@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.safetynet.safetynetalerts.Model.Person;
+import com.safetynet.safetynetalerts.Response.ChildFamilyByAddressResponse;
 import com.safetynet.safetynetalerts.Response.PersonInfoByFirstnameLastnameResponse;
 import com.safetynet.safetynetalerts.Util.Filter;
 import com.safetynet.safetynetalerts.Util.ImportData;
@@ -120,33 +121,37 @@ public class PersonService {
         }
     }
 
-    public String findAllChildByAddress(String address) {
+    public String childFamilyByAddress(String address) {
+        Gson gson = builder.create();
         List<Person> persons = this.findAll();
-        ArrayList<String> resultat= new ArrayList<>();
-
+        ArrayList<ChildFamilyByAddressResponse> resultat= new ArrayList<>();
+        List<Person> family = new ArrayList<>();
+        // Pour chaque person de la liste
         for (Person person : persons) {
-            Map<String,String> child = new HashMap<>();
-            Map<String,String> familly = new HashMap<>();
-
-            if(address.equals(person.getAddress()) && person.isEighteenOrLess()){
-                int i = 0;
-                for (Person membrefamille : persons){
-                    i++;
-                    if(Objects.equals(membrefamille.getAddress(), person.getAddress()) && !Objects.equals(membrefamille, person)){
-                        familly = personInHashmap(membrefamille);
-                        child.put(String.valueOf(i), new JSONObject(familly).toString().replace("\\", ""));
-                        familly.clear();
-                    }
-                }
-
-                child.put("child_firstname", person.getFirstName());
-                child.put("child_lastname", person.getLastName());
-                child.put("child_age",String.valueOf(person.getAge(person.medicalrecord.getBirthdate())));
-
-                resultat.add(new JSONObject(child).toString().replace("\\", ""));
+            // Si la personne a la même adresse et est mineure
+            if(address.equals(person.getAddress())) {
+                family.add(person);
             }
         }
-        return resultat.toString();
+        for (Person member : family){
+            if (member.isEighteenOrLess()){
+
+                List<Person> fam = new ArrayList<>();
+                for (Person famillyMember : family) {
+                    if (famillyMember != member) {
+                        fam.add(famillyMember);
+                    }
+                }
+                ChildFamilyByAddressResponse child = new ChildFamilyByAddressResponse(
+                        member.getLastName(),
+                        member.getFirstName(),
+                        member.getAge(member.medicalrecord.getBirthdate()),
+                        fam
+                );
+                resultat.add(child);
+            }
+        }
+        return gson.toJson(resultat);
     }
 
     public String findPersByFirstnameLastname (String firstname, String lastname) throws JSONException {

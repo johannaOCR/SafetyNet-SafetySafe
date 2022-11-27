@@ -27,7 +27,7 @@ public class PersonController {
     @GetMapping(value = "/childAlert", produces = MediaType.APPLICATION_JSON_VALUE)
     public String GetChildByAddress(@RequestParam String address) throws IOException, JSONException {
         logger.info("get /childAlert?address=<address> with param "+address);
-        return personService.findAllChildByAddress(address);
+        return personService.childFamilyByAddress(address);
     }
 
 //    @GetMapping(value = "/personInfo", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -217,7 +217,8 @@ public  class FireStationService {
         return stationNumber;
     }
 
-    public List<String> findPhoneByStationNumberBrut(int stationNumber) throws IOException, JSONException {
+    public String findPhoneByStationNumber(int stationNumber) throws IOException {
+        Gson gson = builder.create();
         FireStation fireStations = this.findByStationNumber(stationNumber);
         List<String> phoneList = new ArrayList<>();
         for (String address : fireStations.getAddresses()){
@@ -226,13 +227,9 @@ public  class FireStationService {
                 phoneList.add(person.getPhone());
             }
         }
-        return phoneList;
-    }
-    public String findPhoneByStationNumber(int stationNumber) throws IOException, JSONException {
 
-        return filter.listStringToJson(this.findPhoneByStationNumberBrut(stationNumber));
+        return gson.toJson(phoneList);
     }
-
 
 }
 

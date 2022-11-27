@@ -93,8 +93,7 @@ public class PersonServiceTest {
 
     @Test
     public void TestfindAllChildByAddress(){
-        logger.info(personService.findAllChildByAddress("1509 Culver St"));
-        logger.info(personService.findAllChildByAddress("1509 Culver St"));
+        logger.info(personService.childFamilyByAddress("1509 Culver St"));
     }
 
     @Test
