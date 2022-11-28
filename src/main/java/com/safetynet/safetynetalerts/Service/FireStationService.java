@@ -3,8 +3,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Model.Person;
-import com.safetynet.safetynetalerts.Response.PersonByFirestationPersonInfoResponse;
-import com.safetynet.safetynetalerts.Response.PersonByFirestationResponse;
+import com.safetynet.safetynetalerts.Response.*;
 import com.safetynet.safetynetalerts.Util.Filter;
 import com.safetynet.safetynetalerts.Util.ImportData;
 import org.apache.logging.log4j.LogManager;
@@ -151,54 +150,7 @@ public  class FireStationService {
             return null;
         }
     }
-    public HashMap<String, List<JSONObject>> personsAndInformationsByStationNumberBrut(int stationNumber) throws IOException, JSONException {
-        // On recupère toutes les personnes du fichier
-        List<Person> persons = personService.findAll();
-        //On recupère la firestation qui porte le numéro donné
-        FireStation fireStation = this.findByStationNumber(stationNumber);
 
-        List<Person> personsResult= new ArrayList<>();
-        // On recupère les personnes portant les adresses desservie par la caserne
-        for (Person person : persons) {
-            if (fireStation.getAddresses().contains(person.getAddress())){
-                personsResult.add(person);
-            }
-        }
-        // On tri les personnes par adresse et on ajoute les infos nécessaires
-        HashMap<String, List<JSONObject>> personsByAddress = new HashMap<>();
-        List<JSONObject> list = new ArrayList<>();
-        // pour toutes les personnes du résultat
-        for (Person person : personsResult){
-            // si la personne n'a pas encore son adresse dans le fichier final
-            if(!personsByAddress.containsKey(person.getAddress())){
-                // alors pour chaque personne des personnes du résultat
-                list.clear();
-                for (Person personR : personsResult) {
-                    // si l'adresse est égale à celle de la personne retenue
-                    if (Objects.equals(personR.getAddress(), person.getAddress())) {
-                        // on créer une MAP avec les infos que l'on souhaite
-                        Map<String, String> personDetail = new HashMap<>();
-                        personDetail.put("lastname", personR.getLastName());
-                        personDetail.put("phone", personR.getPhone());
-                        personDetail.put("address", personR.getAddress()); /// a supprimer
-                        personDetail.put("age", String.valueOf(getAge(personR.medicalrecord.getBirthdate())));
-                        personDetail.put("medications", personR.medicalrecord.getMedications().toString());
-                        personDetail.put("allergies", personR.medicalrecord.getAllergies().toString());
-                        // On ajoute ce résultat au format JSON
-                        list.add(new JSONObject(personDetail));
-                    }
-                }
-                logger.info(list);
-                personsByAddress.put(person.getAddress(),list);
-
-            }
-        }
-        return personsByAddress;
-    }
-
-    public String personsAndInformationsByStationNumber(int stationNumber) throws IOException, JSONException {
-        return new JSONObject(this.personsAndInformationsByStationNumberBrut(stationNumber)).toString();
-    }
 
     /**
      * Retourne le numéro de caserne de pompier pour une adresse donnée
@@ -229,6 +181,38 @@ public  class FireStationService {
         }
 
         return gson.toJson(phoneList);
+    }
+
+    public String findPersonsByListStationNumber(List<Integer> firestationNumbers) throws IOException {
+        Gson gson = builder.create();
+        List<ListPersonByStationNumberByAddressResponse> response = new ArrayList<>();
+        for (int number : firestationNumbers){
+
+            response.add(new ListPersonByStationNumberByAddressResponse(number,this.findPersonByStationNumber(number)));
+        }
+        return gson.toJson(response);
+    }
+
+    public List<PersonByAdressByFirestationResponse> findPersonByStationNumber(int stationNumber) throws IOException {
+        FireStation firestation = this.findByStationNumber(stationNumber);
+        List<Person> persons = personService.findAll();
+        List<PersonByAdressByFirestationResponse> response = new ArrayList<>();
+        for (String address : firestation.getAddresses()){
+            List<PersonInfoByaddressByStationNumber> personAtAddress = new ArrayList<>();
+            for(Person person : persons) {
+                if(person.getAddress().equals(address)){
+                    PersonInfoByaddressByStationNumber personInfoByFirstnameLastnameResponse =
+                            new PersonInfoByaddressByStationNumber(person.getLastName(), person.getAge(person.medicalrecord.getBirthdate()),person.getPhone(),person.medicalrecord.getMedications(),person.medicalrecord.getAllergies());
+                    personAtAddress.add(personInfoByFirstnameLastnameResponse);
+                }
+            }
+            if(!persons.isEmpty()){
+                PersonByAdressByFirestationResponse personByAdressByFirestationResponse =
+                        new PersonByAdressByFirestationResponse(address,personAtAddress);
+                response.add(personByAdressByFirestationResponse);
+            }
+        }
+        return response;
     }
 
 }

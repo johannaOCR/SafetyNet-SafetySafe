@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -68,15 +69,31 @@ public class FireStationServiceTest {
         Assert.assertNotNull(result);
         Assert.assertFalse(result.isEmpty());
     }
-
+/**
     @Test
     public void personsAndInformationsByStationNumber() throws IOException, JSONException {
         String ANY = fireStationService.personsAndInformationsByStationNumber(2);
         logger.info(fireStationService.personsAndInformationsByStationNumber(2));
     }
+**/
+    @Test
+    public void findPhoneByStationNumberTest() throws IOException {
+        logger.info(fireStationService.findPhoneByStationNumber(1));
+    }
 
     @Test
-    public void findPhoneByStationNumberTest() throws JSONException, IOException {
-        logger.info(fireStationService.findPhoneByStationNumber(1));
+    public void findPersonsByListStationNumberTest() throws IOException {
+        List<Integer> firestationNumberList = new ArrayList<>();
+        firestationNumberList.add(1);
+        firestationNumberList.add(2);
+        firestationNumberList.add(3);
+        firestationNumberList.add(4);
+        logger.info(fireStationService.findPersonsByListStationNumber(firestationNumberList));
+    }
+
+
+    @Test
+    public void findPersonByStationNumberTest() throws IOException {
+            logger.info(fireStationService.findPersonByStationNumber(1));
     }
 }

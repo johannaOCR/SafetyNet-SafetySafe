@@ -163,7 +163,6 @@ public class PersonService {
             if (member.getLastName().equals(lastname) && member.getFirstName().equals(firstname)
             ) {
                 PersonInfoByFirstnameLastnameResponse personInfo = new PersonInfoByFirstnameLastnameResponse(member.getLastName(),
-                        member.getFirstName(),
                         member.getAddress(),
                         member.getAge(member.medicalrecord.getBirthdate()),
                         member.getEmail(),
