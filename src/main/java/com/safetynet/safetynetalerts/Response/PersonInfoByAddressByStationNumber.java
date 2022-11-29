@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.Response;
 
 import java.util.List;
 
-public class PersonInfoByaddressByStationNumber {
+public class PersonInfoByAddressByStationNumber {
 
     String lastname;
     int age;
@@ -10,7 +10,7 @@ public class PersonInfoByaddressByStationNumber {
     List<String> medication;
     List<String> allergies;
 
-    public PersonInfoByaddressByStationNumber(String lastname, int age, String phone, List<String> medication, List<String> allergies) {
+    public PersonInfoByAddressByStationNumber(String lastname, int age, String phone, List<String> medication, List<String> allergies) {
         this.lastname = lastname;
         this.age = age;
         this.phone = phone;

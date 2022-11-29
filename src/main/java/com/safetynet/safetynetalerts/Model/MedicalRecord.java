@@ -1,10 +1,6 @@
 package com.safetynet.safetynetalerts.Model;
 
-import com.jsoniter.any.Any;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class MedicalRecord {

@@ -2,13 +2,11 @@ package com.safetynet.safetynetalerts.Response;
 
 import java.util.List;
 
-public class PersonByAdressByFirestationResponse {
-
-
+public class PersonByAddressByFirestationResponse {
     String address;
-    List<PersonInfoByaddressByStationNumber> persons;
+    List<PersonInfoByAddressByStationNumber> persons;
 
-    public PersonByAdressByFirestationResponse(String address, List<PersonInfoByaddressByStationNumber> persons) {
+    public PersonByAddressByFirestationResponse(String address, List<PersonInfoByAddressByStationNumber> persons) {
         this.address = address;
         this.persons = persons;
     }
@@ -21,11 +19,11 @@ public class PersonByAdressByFirestationResponse {
         this.address = address;
     }
 
-    public List<PersonInfoByaddressByStationNumber> getPersons() {
+    public List<PersonInfoByAddressByStationNumber> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<PersonInfoByaddressByStationNumber> persons) {
+    public void setPersons(List<PersonInfoByAddressByStationNumber> persons) {
         this.persons = persons;
     }
 }

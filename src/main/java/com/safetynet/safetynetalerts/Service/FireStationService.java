@@ -8,7 +8,6 @@ import com.safetynet.safetynetalerts.Response.*;
 import com.safetynet.safetynetalerts.Util.ImportData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -134,18 +133,18 @@ public class FireStationService {
     /**
      * Build a list of all the persons covered by the Firestation based on the given station number
      * @param stationNumber a station number
-     * @return a list of all the persons covered by the Firestation as a PersonByAdressByFirestationResponse Object
+     * @return a list of all the persons covered by the Firestation as a PersonByAddressByFirestationResponse Object
      */
-    public List<PersonByAdressByFirestationResponse> findPersonByStationNumber(int stationNumber) {
+    public List<PersonByAddressByFirestationResponse> findPersonByStationNumber(int stationNumber) {
         FireStation firestation = this.findByStationNumber(stationNumber);
         List<Person> persons = personService.findAll();
-        List<PersonByAdressByFirestationResponse> response = new ArrayList<>();
+        List<PersonByAddressByFirestationResponse> response = new ArrayList<>();
         for (String address : firestation.getAddresses()) {
-            List<PersonInfoByaddressByStationNumber> personAtAddress = new ArrayList<>();
+            List<PersonInfoByAddressByStationNumber> personAtAddress = new ArrayList<>();
             for (Person person : persons) {
                 if (person.getAddress().equals(address)) {
-                    PersonInfoByaddressByStationNumber personInfoByFirstnameLastnameResponse =
-                            new PersonInfoByaddressByStationNumber(
+                    PersonInfoByAddressByStationNumber personInfoByFirstnameLastnameResponse =
+                            new PersonInfoByAddressByStationNumber(
                                 person.getLastName(),
                                 person.getAge(person.medicalrecord.getBirthdate()),
                                 person.getPhone(),
@@ -156,12 +155,12 @@ public class FireStationService {
                 }
             }
             if (!persons.isEmpty()) {
-                PersonByAdressByFirestationResponse personByAdressByFirestationResponse =
-                        new PersonByAdressByFirestationResponse(
+                PersonByAddressByFirestationResponse personByAddressByFirestationResponse =
+                        new PersonByAddressByFirestationResponse(
                             address,
                             personAtAddress
                         );
-                response.add(personByAdressByFirestationResponse);
+                response.add(personByAddressByFirestationResponse);
             }
         }
         return response;

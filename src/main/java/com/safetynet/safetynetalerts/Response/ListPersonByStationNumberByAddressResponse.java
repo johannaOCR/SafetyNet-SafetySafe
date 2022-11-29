@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ListPersonByStationNumberByAddressResponse {
     int stationNumber;
-    List<PersonByAdressByFirestationResponse> listPersonsByAddress;
+    List<PersonByAddressByFirestationResponse> listPersonsByAddress;
 
-    public ListPersonByStationNumberByAddressResponse(int stationNumber, List<PersonByAdressByFirestationResponse> listPersonsByAddress) {
+    public ListPersonByStationNumberByAddressResponse(int stationNumber, List<PersonByAddressByFirestationResponse> listPersonsByAddress) {
         this.stationNumber = stationNumber;
         this.listPersonsByAddress = listPersonsByAddress;
     }
@@ -19,11 +19,11 @@ public class ListPersonByStationNumberByAddressResponse {
         this.stationNumber = stationNumber;
     }
 
-    public List<PersonByAdressByFirestationResponse> getListPersonsByAddress() {
+    public List<PersonByAddressByFirestationResponse> getListPersonsByAddress() {
         return listPersonsByAddress;
     }
 
-    public void setListPersonsByAddress(List<PersonByAdressByFirestationResponse> listPersonsByAddress) {
+    public void setListPersonsByAddress(List<PersonByAddressByFirestationResponse> listPersonsByAddress) {
         this.listPersonsByAddress = listPersonsByAddress;
     }
 
