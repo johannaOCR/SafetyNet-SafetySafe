@@ -1,15 +1,10 @@
 package com.safetynet.safetynetalerts;
 
-import com.jsoniter.any.Any;
-import com.safetynet.safetynetalerts.Model.FireStation;
-import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.FireStationService;
 import com.safetynet.safetynetalerts.Util.ImportData;
-import static org.mockito.Mockito.when;
 
 import org.apache.logging.log4j.LogManager;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Assert;
 
 import org.junit.Test;
@@ -78,7 +73,7 @@ public class FireStationServiceTest {
 **/
     @Test
     public void findPhoneByStationNumberTest() throws IOException {
-        logger.info(fireStationService.findPhoneByStationNumber(1));
+        logger.info(fireStationService.phoneAlertByStationNumber(1));
     }
 
     @Test
@@ -88,7 +83,7 @@ public class FireStationServiceTest {
         firestationNumberList.add(2);
         firestationNumberList.add(3);
         firestationNumberList.add(4);
-        logger.info(fireStationService.findPersonsByListStationNumber(firestationNumberList));
+        logger.info(fireStationService.floodByStationsNumbers(firestationNumberList));
     }
 
 

@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.net.MalformedURLException;
 import java.util.*;
 
@@ -61,7 +60,6 @@ public class PersonServiceTest {
         logger.info(personsResult);
         Assert.assertNotNull(personsResult);
         Assert.assertFalse(personsResult.isEmpty());
-
     }
 
     @Test
@@ -79,26 +77,27 @@ public class PersonServiceTest {
         Assert.assertFalse(personService.findAllByCity("Culver").isEmpty());
     }
 
-    @Test
-    public void testFindEmailByCity() throws JSONException {
-        logger.info(personService.findMailByCity("Culver"));
-        logger.info(personService.findMailByCity("Culver"));
-        Assert.assertNotNull(personService.findMailByCity("Culver"));
-        Assert.assertFalse(personService.findMailByCity("Culver").isEmpty());
-    }
-    @Test
-    public void testFindEmailByCityFalse() throws JSONException {
-        Assert.assertNull(personService.findMailByCity("NameOfCityHowNotExist"));
-    }
+
+
 
     @Test
     public void TestfindAllChildByAddress(){
-        logger.info(personService.childFamilyByAddress("1509 Culver St"));
+        logger.info(personService.childAlertByAddress("1509 Culver St"));
     }
 
     @Test
     public void findPersByFirstnameLastnameTest() throws JSONException {
-        logger.info(personService.findPersByFirstnameLastname("Brian","Stelzer"));
+        logger.info(personService.personInfoByFirstNameLastName("Brian","Stelzer"));
     }
 
+    @Test
+    public void infoEmailByCityTest() {
+        logger.info(personService.communityEmailByCity("Culver"));
+    }
+/** TODO : faire le test
+    @Test
+    public void infoEmailByCityFalseTest() {
+        Assert.as(personService.infoEmailByCity("NameOfCityHowNotExist")=[]);
+    }
+**/
 }

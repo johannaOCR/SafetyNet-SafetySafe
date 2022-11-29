@@ -115,20 +115,24 @@ public class Person {
         return email;
     }
 
+    /**
+     * Check if is this person is majeur or not
+     * @return true is majeur, false otherwise
+     */
     public Boolean isMajeur () {
         Date dateNow = new Date(System.currentTimeMillis());
-        try {
-            long between = dateNow.getTime() - medicalrecord.birthdate.getTime();
-            if ((between/(24*60*60*1000)) > 6570 ){
-                return true;
-            }
-            return false;
-        }catch (Exception e){
-
+        Boolean result = false;
+        long between = dateNow.getTime() - medicalrecord.birthdate.getTime();
+        if ((between/(24*60*60*1000)) > 6570 ){
+            result = true;
         }
-        return null;
+        return result;
     }
 
+    /**
+     * check if this person is eighteen years old or less
+     * @return true if the person is eighteen years old or less, false otherwise
+     */
     public Boolean isEighteenOrLess () {
         Date dateNow = new Date(System.currentTimeMillis());
         try {
@@ -143,17 +147,28 @@ public class Person {
         return null;
     }
 
+    /**
+     * Give the age of this person based on the given birthdate
+     * @param birthDate The birthdate as a Date object
+     * @return the age
+     */
     public int getAge(Date birthDate) {
-        LocalDate birthdate = convertToLocalDateViaMilisecond(birthDate);
+        LocalDate birthdate = convertToLocalDateInMillisecond(birthDate);
         Date dateNow = new Date(System.currentTimeMillis());
-        LocalDate localDateNow = convertToLocalDateViaMilisecond(dateNow);
+        LocalDate localDateNow = convertToLocalDateInMillisecond(dateNow);
         if ((birthDate != null) && (dateNow != null)) {
             return Period.between(birthdate, localDateNow).getYears();
         } else {
             return 0;
         }
     }
-    public static LocalDate convertToLocalDateViaMilisecond(Date dateToConvert) {
+
+    /**
+     * Convert the given date in a local date format in millisecond
+     * @param dateToConvert the date to convert as a date object
+     * @return a localDate in millisecond
+     */
+    public static LocalDate convertToLocalDateInMillisecond(Date dateToConvert) {
         return Instant.ofEpochMilli(dateToConvert.getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
