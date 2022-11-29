@@ -60,6 +60,20 @@ public class FireStationService {
         return fireStationResult;
     }
 
+    /**
+     * Find the Station number from the given address
+     * @param address
+     * @return
+     */
+    public int findStationNumberByAddress(String address){
+        List<FireStation> fireStationList = this.findAll();
+        for (FireStation firestation : fireStationList){
+            if (firestation.getAddresses().contains(address)){
+                return firestation.getStationNumber();
+            }
+        }
+        return -1;
+    }
     /*****************************
      *          SERVICES
      * ***************************/
@@ -97,6 +111,7 @@ public class FireStationService {
     }
 
     /**
+     * phoneAlert?firestation=<firestation_number>
      * Find all the phone numbers of the persons covered by the firestation based on the given station number
      *
      * @param stationNumber the station number
@@ -116,6 +131,41 @@ public class FireStationService {
     }
 
     /**
+     * /fire?address=<address>
+     * Build a json formatted string of persons living at given address and the corresponding station number
+     * @param address the address to look at
+     * @return a json formatted string of persons living at given address and the corresponding station number
+     */
+    public String fireByAddress(String address) {
+        Gson gson = builder.create();
+        int stationNumber = findStationNumberByAddress(address);
+        List<Person> persons = personService.findAllByAddress(address);
+        List<PersonInfoByAddressByStationNumber> personInfo = new ArrayList<>();
+        for (Person member : persons) {
+            if (member.getAddress().equals(address)) {
+                PersonInfoByAddressByStationNumber info = new PersonInfoByAddressByStationNumber(
+                        member.getLastName(),
+                        member.getAge(member.medicalrecord.getBirthdate()),
+                        member.getPhone(),
+                        member.medicalrecord.getMedications(),
+                        member.medicalrecord.getAllergies()
+                );
+                personInfo.add(info);
+            }
+        }
+        PersonByAddressByFirestationResponse result = new PersonByAddressByFirestationResponse(
+                address,
+                personInfo
+        );
+        ListPersonByStationNumberByAddressResponse response =  new ListPersonByStationNumberByAddressResponse(
+                stationNumber,
+                result
+        );
+        return gson.toJson(response);
+    }
+
+    /**
+     * flood/stations?stations=<a list of station_numbers>
      * Build a json formatted string of all the persons covered by the Firestation based on the given
      * list of station number
      * @param firestationNumbers a list of station number
@@ -123,9 +173,9 @@ public class FireStationService {
      */
     public String floodByStationsNumbers(List<Integer> firestationNumbers){
         Gson gson = builder.create();
-        List<ListPersonByStationNumberByAddressResponse> response = new ArrayList<>();
+        List<ListPersonByStationNumberByListAddressesResponse> response = new ArrayList<>();
         for (int number : firestationNumbers) {
-            response.add(new ListPersonByStationNumberByAddressResponse(number, this.findPersonByStationNumber(number)));
+            response.add(new ListPersonByStationNumberByListAddressesResponse(number, this.findPersonByStationNumber(number)));
         }
         return gson.toJson(response);
     }

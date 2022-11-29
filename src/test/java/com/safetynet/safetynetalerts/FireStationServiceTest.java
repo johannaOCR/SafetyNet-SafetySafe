@@ -39,14 +39,14 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testFindByWithoutGoodID() {
+    public void testFindByStationNumberWithoutGoodID() {
         logger.info("testFindByWithoutGoodID()");
         logger.info(fireStationService.findByStationNumber(5));
         Assert.assertNull(fireStationService.findByStationNumber(5));
     }
 
     @Test
-    public void personByFirestationTest(){
+    public void testPersonByFirestation(){
         logger.info("personByFirestationTest()");
         logger.info(fireStationService.personByFirestation(1));
         Assert.assertNotNull(fireStationService.personByFirestation(1));
@@ -55,18 +55,23 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void findPhoneByStationNumberTest(){
+    public void testPhoneAlertByStationNumber(){
         logger.info(fireStationService.phoneAlertByStationNumber(1));
     }
 
     @Test
-    public void findPersonsByListStationNumberTest() {
+    public void testFloodByStationsNumbers() {
         List<Integer> firestationNumberList = new ArrayList<>();
         firestationNumberList.add(1);
         firestationNumberList.add(2);
         firestationNumberList.add(3);
         firestationNumberList.add(4);
         logger.info(fireStationService.floodByStationsNumbers(firestationNumberList));
+    }
+    @Test
+    public void testFireByAddress(){
+        String address = "908 73rd St";
+        logger.info(fireStationService.fireByAddress(address));
     }
 
     @Test

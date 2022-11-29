@@ -3,7 +3,6 @@ package com.safetynet.safetynetalerts;
 import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.net.MalformedURLException;
@@ -17,7 +16,7 @@ public class PersonServiceTest {
 
     @Test
     public void testFindAll() {
-        List<Person> persons = new ArrayList<>();
+        List<Person> persons;
         persons = personService.findAll();
         logger.info(persons);
         Assert.assertNotNull(persons);
@@ -48,7 +47,7 @@ public class PersonServiceTest {
     }
     @Test
     public void testFindAllByAddresses(){
-        List<Person> persons= new ArrayList<>();
+        List<Person> persons;
         Set<String> addresses= new HashSet<>();
         persons = personService.findAll();
         for(Person person : persons) {
@@ -77,21 +76,18 @@ public class PersonServiceTest {
         Assert.assertFalse(personService.findAllByCity("Culver").isEmpty());
     }
 
-
-
-
     @Test
-    public void TestfindAllChildByAddress(){
+    public void testChildAlertByAddress(){
         logger.info(personService.childAlertByAddress("1509 Culver St"));
     }
 
     @Test
-    public void findPersByFirstnameLastnameTest() throws JSONException {
+    public void testPersonInfoByFirstNameLastName() {
         logger.info(personService.personInfoByFirstNameLastName("Brian","Stelzer"));
     }
 
     @Test
-    public void infoEmailByCityTest() {
+    public void testCommunityEmailByCity() {
         logger.info(personService.communityEmailByCity("Culver"));
     }
 /** TODO : faire le test

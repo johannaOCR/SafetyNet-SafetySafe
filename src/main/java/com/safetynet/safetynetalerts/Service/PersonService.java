@@ -115,6 +115,7 @@ public class PersonService {
      * ***************************/
 
     /**
+     * childAlert?address=<address>
      * Build a json formatted string of a list a child living at the given address
      * @param address : the address to look at
      * @return Return a json formatted string of a list a child living at the given address
@@ -152,6 +153,7 @@ public class PersonService {
     }
 
     /**
+     * personInfo?firstName=<firstName>&lastName=<lastName>
      * Build a json formatted string with the name, age, mail and medical information of the person matching the given
      * firstname/lastname
      * @param firstname the person firstame
@@ -180,6 +182,7 @@ public class PersonService {
     }
 
     /**
+     * communityEmail?city=<city>
      * Build a json formatted string of a list of email for all the person who live in the given city
      * @param city the city name
      * @return a list of email as a json formatted string

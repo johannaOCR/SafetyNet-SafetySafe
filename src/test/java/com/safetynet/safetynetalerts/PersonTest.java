@@ -43,5 +43,8 @@ public class PersonTest {
         logger.info("Result : " + personTestMineur.isMajeur());
         Assert.assertFalse(personTestMineur.isMajeur());
     }
+    /**
+     * TODO: Test getAge(), test isEighteenOrLess(), test dateInMillisecond()
+     */
 
 }

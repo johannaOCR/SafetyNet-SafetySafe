@@ -4,11 +4,11 @@ import java.util.List;
 
 public class ListPersonByStationNumberByAddressResponse {
     int stationNumber;
-    List<PersonByAddressByFirestationResponse> listPersonsByAddress;
+    PersonByAddressByFirestationResponse listPersons;
 
-    public ListPersonByStationNumberByAddressResponse(int stationNumber, List<PersonByAddressByFirestationResponse> listPersonsByAddress) {
+    public ListPersonByStationNumberByAddressResponse(int stationNumber, PersonByAddressByFirestationResponse listPersons) {
         this.stationNumber = stationNumber;
-        this.listPersonsByAddress = listPersonsByAddress;
+        this.listPersons = listPersons;
     }
 
     public int getStationNumber() {
@@ -19,12 +19,13 @@ public class ListPersonByStationNumberByAddressResponse {
         this.stationNumber = stationNumber;
     }
 
-    public List<PersonByAddressByFirestationResponse> getListPersonsByAddress() {
-        return listPersonsByAddress;
+    public PersonByAddressByFirestationResponse getListPersons() {
+        return listPersons;
     }
 
-    public void setListPersonsByAddress(List<PersonByAddressByFirestationResponse> listPersonsByAddress) {
-        this.listPersonsByAddress = listPersonsByAddress;
+    public void setListPersons(PersonByAddressByFirestationResponse listPersons) {
+        this.listPersons = listPersons;
     }
+
 
 }
