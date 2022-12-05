@@ -82,6 +82,11 @@ public class PersonServiceTest {
     }
 
     @Test
+    public void testChildAlertByAddressWithoutChild(){
+        logger.info(personService.childAlertByAddress("29 15th St"));
+    }
+
+    @Test
     public void testPersonInfoByFirstNameLastName() {
         logger.info(personService.personInfoByFirstNameLastName("Brian","Stelzer"));
     }
