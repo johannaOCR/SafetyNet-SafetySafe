@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts;
+package com.safetynet.safetynetalerts.servicesTest;
 
 import ch.qos.logback.core.CoreConstants;
 import com.jsoniter.JsonIterator;

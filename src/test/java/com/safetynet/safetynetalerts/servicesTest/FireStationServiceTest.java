@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts;
+package com.safetynet.safetynetalerts.servicesTest;
 
 import com.safetynet.safetynetalerts.Service.FireStationService;
 import com.safetynet.safetynetalerts.Util.ImportData;
@@ -15,8 +15,7 @@ import java.util.List;
 
 public class FireStationServiceTest {
     FireStationService fireStationService = new FireStationService();
-    ImportData importData;
-    Mockito mockito;
+
     private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("FireStationServiceTest");
 
     public FireStationServiceTest() throws MalformedURLException {

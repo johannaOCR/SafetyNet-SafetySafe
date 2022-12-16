@@ -1,12 +1,13 @@
 package com.safetynet.safetynetalerts.Controller;
 
+import Repository.FirestationDAO;
+import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -15,14 +16,43 @@ public class FireStationController {
 
     private FireStationService fireStationService = new FireStationService();
     private final static Logger logger = LogManager.getLogger("FirestationController") ;
+    private FirestationDAO firestationDAO;
 
     public FireStationController() throws MalformedURLException {
     }
+
     /**
-     * TODO : CRUD controller
+     * CRUD Firestation
      */
+    @GetMapping("/firestations")
+    public String getFirestation()
+    {
+        return firestationDAO.findAll().toString();
+    }
+
+    @PostMapping("/firestation")
+    public void postFirestation(
+            @RequestParam(name="stationNumber") int stationNumber,
+            @RequestParam(name="address") String address)
+    {
+        firestationDAO.save(new FireStation(stationNumber).addAddress(address));
+    }
+    @PutMapping("/firestation")
+    public String putFirestation(
+            @RequestParam(name="stationNumber") String stationNumber,
+            @RequestParam(name="address") String address)
+    {
+        return "todo";
+    }
 
 
+    @DeleteMapping("/firestation")
+    public String deleteFirestation(
+            @RequestParam(name="stationNumber") String stationNumber,
+            @RequestParam(name="address") String address)
+    {
+        return "todo";
+    }
     /**
      * services
      */

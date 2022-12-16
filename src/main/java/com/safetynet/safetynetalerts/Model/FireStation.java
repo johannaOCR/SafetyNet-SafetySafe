@@ -16,7 +16,10 @@ public class FireStation {
         addresses.add(address);
         return this;
     }
-
+    public FireStation removeAddress(String address) {
+        addresses.remove(address);
+        return this;
+    }
     public int getStationNumber() {
         return stationNumber;
     }

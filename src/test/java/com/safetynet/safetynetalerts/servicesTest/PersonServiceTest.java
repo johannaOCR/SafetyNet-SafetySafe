@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts;
+package com.safetynet.safetynetalerts.servicesTest;
 
 import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;

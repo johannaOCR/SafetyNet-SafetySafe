@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts;
+package com.safetynet.safetynetalerts.modelTest;
 
 import com.jsoniter.any.Any;
 import com.safetynet.safetynetalerts.Model.MedicalRecord;
