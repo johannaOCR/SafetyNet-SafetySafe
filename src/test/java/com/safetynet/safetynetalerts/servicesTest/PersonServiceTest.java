@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.servicesTest;
 
+import com.safetynet.safetynetalerts.Model.MedicalRecord;
 import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;
 import org.apache.logging.log4j.LogManager;
@@ -101,4 +102,76 @@ public class PersonServiceTest {
         Assert.as(personService.infoEmailByCity("NameOfCityHowNotExist")=[]);
     }
 **/
+
+    @Test
+    public void findAll(){
+        logger.info("**** FIND ALL : **** \n\r");
+        logger.info(personService.findAllPersons());
+    }
+
+    @Test
+    public void saveTest(){
+        Person person = new Person("Felicia", "Boyd", "841-874-6544","97451" , null,"1509 Culver St" ,"Culver" ,"jaboyd@email.com");
+        logger.info("**** BEFORE SAVE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+        personService.save(person);
+        logger.info("**** PERSON TO SAVE **** \n\r" + person + " \n\r **** END **** \r\n");
+        logger.info("**** AFTER SAVE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+    }
+
+    @Test
+    public void updateTest(){
+        Person person = new Person("Jonanathan","Marrack","841-874-6513","97451",null,"29 15th St","Culver","drk@email.com");
+        logger.info("**** BEFORE UPDATE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+        personService.update("Jonanathan","Marrack", "","THE_TEST_IS_HERE_1","THE_TEST_IS_HERE_2","","");
+        logger.info("**** AFTER UPDATE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+
+    }
+
+    @Test
+    public void deleteTest(){
+        Person person = new Person("Jonanathan","Marrack","841-874-6513","97451",null,"29 15th St","Culver","drk@email.com");
+        logger.info("**** BEFORE DELETE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+        personService.delete("Jonanathan","Marrack");
+        logger.info("**** PERSON TO DELETE **** \n\r" + person + " \n\r **** END **** \r\n");
+        logger.info("**** AFTER DELETE **** \n\r" + personService.findAllPersons() + " \n\r **** END **** \r\n");
+    }
+
+    @Test
+    public void findPersonByFirstnameLastname(){
+        logger.info(personService.findPersonByFirstnameLastname("Foster","Shepard"));
+    }
+
+    @Test
+    public void updateMedicalRecordTest(){
+        List<String> medication = new ArrayList<>();
+        List<String> allergie = new ArrayList<>();
+        Date birthdate = new Date("01/06/2011");
+        medication.add("testMedication");
+        allergie.add("testAllergie");
+        MedicalRecord medicalRecord = new MedicalRecord("Foster","Shepard",medication,allergie,birthdate);
+        logger.info("**** BEFORE MR UPDATE **** \n\r" + personService.findPersonByFirstnameLastname("Foster","Shepard") + " \n\r **** END **** \r\n");
+        personService.updateMedicalRecord(medicalRecord.getFirstname(),medicalRecord.getLastname(),medication,allergie,birthdate);
+        logger.info("**** AFTER MR UPDATE **** \n\r" + personService.findPersonByFirstnameLastname("Foster","Shepard") + " \n\r **** END **** \r\n");
+    }
+
+    @Test
+    public void saveMedicalRecordTest(){
+        List<String> medication = new ArrayList<>();
+        List<String> allergie = new ArrayList<>();
+        Date birthdate = new Date("10/10/2010");
+        medication.add("testMedication");
+        allergie.add("testAllergie");
+        logger.info("**** BEFORE MR SAVE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
+        personService.saveMedicalRecord("Toto","Toto",medication,allergie,birthdate);
+        logger.info("**** AFTER MR SAVE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
+    }
+
+    @Test
+    public void deleteMedicalRecordTest(){
+        logger.info("**** BEFORE MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
+        personService.deleteMedicalRecord("Toto","Toto");
+        logger.info("**** AFTER MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
+        Assert.assertNull(personService.findPersonByFirstnameLastname("Toto","Toto"));
+    }
+
 }

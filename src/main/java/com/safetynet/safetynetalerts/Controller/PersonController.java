@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +14,15 @@ import java.util.List;
 public class PersonController {
     private PersonService personService = new PersonService();
     private final static Logger logger = LogManager.getLogger("PersonController") ;
+    private List<String> listNullDefault = new ArrayList<String>();
 
     public PersonController() throws MalformedURLException {
     }
 
 
-    /**
-     * CRUD Person
-     */
+    /*****************************
+     *     C.R.U.D. Person
+     * ***************************/
 
     @PostMapping("/person")
     public String postPerson(
@@ -38,11 +40,12 @@ public class PersonController {
     public String putPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
-            @RequestParam(name="phone", required = false) String phone,
-            @RequestParam(name="zip",required = false) String zip,
-            @RequestParam(name="address",required = false) String address,
-            @RequestParam(name="city",required = false) String city,
-            @RequestParam(name="email",required = false) String email) {
+            @RequestParam(name="phone", required = false, value = "null") String phone,
+            @RequestParam(name="zip",required = false, value = "null") String zip,
+            @RequestParam(name="address",required = false, value = "null") String address,
+            @RequestParam(name="city",required = false, value = "null") String city,
+            @RequestParam(name="email",required = false, value = "null") String email) {
+
         return "todo";
     }
 
@@ -55,16 +58,17 @@ public class PersonController {
         return "todo";
     }
 
-    /**
-     * CRUD MedicalRecord
-     */
+    /*****************************
+     *   C.R.U.D. MedicalRecord
+     * ***************************/
+
     @PostMapping("/medicalRecord")
     public String postMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
-            @RequestParam(name="medications", required = false) List<String> medications,
-            @RequestParam(name="allergies",required = false) List<String> allergies,
-            @RequestParam(name="birthdate",required = false) Date birthdate)
+            @RequestParam(name="medications", required = false, value = "null") List<String> medications,
+            @RequestParam(name="allergies",required = false, value = "null") List<String> allergies,
+            @RequestParam(name="birthdate",required = false, value = "null") Date birthdate)
     {
         return "todo";
     }
@@ -89,9 +93,10 @@ public class PersonController {
         return "todo";
     }
 
-    /**
-     * Services
-     */
+    /*****************************
+     *          SERVICES
+     * ***************************/
+
     @GetMapping("/childAlert")
     public String getChildAndFamilyByAddress(@RequestParam(name="address", required = true) String address) {
         logger.info("Get /childAlert?address="+address);

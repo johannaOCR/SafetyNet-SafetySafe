@@ -21,13 +21,14 @@ public class FireStationController {
     public FireStationController() throws MalformedURLException {
     }
 
-    /**
-     * CRUD Firestation
-     */
+    /*****************************
+     *    C.R.U.D. Firestation
+     * ***************************/
+
     @GetMapping("/firestations")
     public String getFirestation()
     {
-        return firestationDAO.findAll().toString();
+        return fireStationService.findAllFirestation().toString();
     }
 
     @PostMapping("/firestation")
@@ -35,7 +36,7 @@ public class FireStationController {
             @RequestParam(name="stationNumber") int stationNumber,
             @RequestParam(name="address") String address)
     {
-        firestationDAO.save(new FireStation(stationNumber).addAddress(address));
+        fireStationService.save(new FireStation(stationNumber).addAddress(address));
     }
     @PutMapping("/firestation")
     public String putFirestation(
@@ -53,9 +54,10 @@ public class FireStationController {
     {
         return "todo";
     }
-    /**
-     * services
-     */
+    /*****************************
+     *          SERVICES
+     * ***************************/
+
     @GetMapping("/firestation")
     public String getPersonByStationNumber(@RequestParam(name="stationNumber", required = true) int station_number) {
         logger.info("Get /firestation?stationNumber="+station_number);

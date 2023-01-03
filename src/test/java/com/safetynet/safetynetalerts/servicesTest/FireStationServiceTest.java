@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.servicesTest;
 
+import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
 import com.safetynet.safetynetalerts.Util.ImportData;
 
@@ -76,5 +77,40 @@ public class FireStationServiceTest {
     @Test
     public void findPersonByStationNumberTest() {
             logger.info(fireStationService.findPersonByStationNumber(1));
+    }
+
+    @Test
+    public void findAllFirestationTest(){
+        logger.info(this.fireStationService.findAllFirestation().toString());
+    }
+
+    @Test
+    public void saveTest(){
+        FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
+        logger.info("BEFORE SAVE : " + this.fireStationService.findAllFirestation());
+        this.fireStationService.save(fireStation);
+        logger.info("AFTER SAVE : " + this.fireStationService.findAllFirestation());
+    }
+
+    @Test
+    public void updateTest(){
+        logger.info("BEFORE UPDATE : " + this.fireStationService.findAllFirestation());
+        this.fireStationService.update("834 Binoc Ave",3);
+        logger.info("AFTER UPDATE : " + this.fireStationService.findAllFirestation());
+    }
+
+    @Test
+    public void deleteTest(){
+        FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
+        this.fireStationService.save(fireStation);
+        logger.info("BEFORE DELETE : " + this.fireStationService.findAllFirestation());
+        this.fireStationService.delete(fireStation);
+        logger.info("AFTER DELETE : " + this.fireStationService.findAllFirestation());
+    }
+
+    @Test
+    public void findByIdTest(){
+        logger.info("LIST : " + this.fireStationService.findAllFirestation());
+        logger.info("STATION NUMBER CHOISE 3 : " + this.fireStationService.findById(3));
     }
 }

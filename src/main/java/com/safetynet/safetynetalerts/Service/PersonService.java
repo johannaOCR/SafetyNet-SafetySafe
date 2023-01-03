@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.safetynet.safetynetalerts.Model.MedicalRecord;
 import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Response.ChildFamilyByAddressResponse;
 import com.safetynet.safetynetalerts.Response.PersonInfoByFirstnameLastnameResponse;
@@ -16,7 +17,21 @@ public class PersonService {
     private final static Logger logger = LogManager.getLogger("PersonService");
     private ImportData importData = new ImportData();
     private GsonBuilder builder = new GsonBuilder();
+    public static List<Person> personsList = new ArrayList<>();
+    static {
+        List<String> m1 = new ArrayList<>(); m1.add(""); List<String> a1 = new ArrayList<>(); a1.add("");
+        List<String> m2 = new ArrayList<>(); m2.add(""); List<String> a2 = new ArrayList<>(); a2.add("");
+        List<String> m3 = new ArrayList<>(); m3.add(""); List<String> a3 = new ArrayList<>(); a3.add("shellfish");
+        List<String> m4 = new ArrayList<>(); m4.add(""); List<String> a4 = new ArrayList<>(); a4.add("");
 
+
+        personsList.add(new Person("Jonanathan","Marrack","841-874-6513","97451",new MedicalRecord("Jonanathan","Marrack",m1,a1,new Date("01/03/1989")),"29 15th St","Culver","drk@email.com"));
+        personsList.add(new Person("Tessa","Carman","841-874-6512","97451",new MedicalRecord("Tessa","Carman",m2,a2,new Date("02/18/2012")),"834 Binoc Ave","Culver","tenz@email.com"));
+        personsList.add(new Person("Peter","Duncan","841-874-6512","97451",new MedicalRecord("Peter","Duncan",m3,a3,new Date("09/06/2000")),"644 Gershwin Cir","Culver","jaboyd@email.com"));
+        personsList.add(new Person("Foster","Shepard","841-874-6544","97451",new MedicalRecord("Foster","Shepard",m4,a4,new Date("01/08/1980")),"748 Townings Dr","Culver","jaboyd@email.com"));
+        personsList.add(new Person("Toto","Toto","841-874-6544","97451",null,"748 Toto Dr","Toto","toto@email.com"));
+
+    }
     public PersonService() throws MalformedURLException {
     }
 
@@ -109,6 +124,115 @@ public class PersonService {
         }
         return personsResult;
     }
+
+
+    /*****************************
+     *          C.R.U.D. Person
+     * ***************************/
+
+    public List<Person> findAllPersons(){
+        return personsList;
+    }
+    public void save(Person person) {
+        if(!personsList.contains(person)){
+            personsList.add(person);
+            logger.info("Person save : " + person);
+        } else {
+            logger.info("Person already exist. Do an update for modification");
+        }
+    }
+
+
+    public void update(String firstname, String lastname, String phone, String zip, String address, String city, String email){
+        for (Person person : personsList){
+            if (Objects.equals(person.getFirstName(), firstname) && Objects.equals(person.getLastName(), lastname)){
+                if(!Objects.equals(phone, "null")){
+                    person.setPhone(phone);
+                }
+                if (!Objects.equals(zip, "null")){
+                    person.setZip(zip);
+                }
+                if (!Objects.equals(address, "null")) {
+                    person.setAddress(address);
+                }
+                if (!Objects.equals(city, "null")) {
+                    person.setCity(city);
+                }
+                if (!Objects.equals(email, "null")) {
+                    person.setEmail(email);
+                }
+            }
+        }
+    }
+
+    public Person findPersonByFirstnameLastname(String firstname, String lastname){
+        Person personResult = null;
+        for (Person person : personsList){
+            if (person.getFirstName() == firstname && person.getLastName() == lastname){
+                personResult = person;
+                break;
+            }
+        }
+        if (personResult == null) {
+            logger.error(firstname + " " + lastname + " not found");
+        }
+        return personResult;
+    }
+    public void delete(String firstname, String lastname) {
+        Person personToDelete = null;
+        for (Person person : personsList){
+            if (Objects.equals(person.getFirstName(), firstname) && Objects.equals(person.getLastName(), lastname)){
+                personToDelete = person;
+            }
+        }
+        if (personToDelete != null) {
+            logger.info("Delete Person : " + personToDelete);
+            personsList.remove(personToDelete);
+        } else {
+            logger.info("invalid delete");
+        }
+    }
+
+    /*****************************
+     *    C.R.U.D. MedicalRecord
+     * ***************************/
+
+    public void saveMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
+        Person personResult = findPersonByFirstnameLastname(firstname,lastname);
+        if (personResult != null) {
+            MedicalRecord medicalRecord = new MedicalRecord(firstname, lastname, medication, allergie, birthdate);
+            personResult.setMedicalrecord(medicalRecord);
+        } else {
+            logger.error("this person not exist");
+        }
+    }
+    public void updateMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
+        Person personResult = findPersonByFirstnameLastname(firstname,lastname);
+        if (personResult != null) {
+            if(medication.isEmpty() && allergie.isEmpty() && birthdate==null){
+                logger.error("Nothing to update on medical record");
+            }
+            if (!medication.isEmpty()){
+                personResult.getMedicalrecord().setMedications(medication);
+            }
+            if (!allergie.isEmpty()){
+                personResult.getMedicalrecord().setAllergies(allergie);
+            }
+            if (birthdate!=null){
+                personResult.getMedicalrecord().setBirthdate(birthdate);
+            }
+        } else {
+            logger.error("this person not exist");
+        }
+    }
+
+    public void deleteMedicalRecord(String firstname, String lastname){
+        Person personResult = findPersonByFirstnameLastname(firstname,lastname);
+        if (personResult != null) {
+            personsList.remove(personResult);
+        }
+    }
+
 
     /*****************************
      *          SERVICES

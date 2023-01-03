@@ -7,14 +7,14 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class Person {
-        public final String firstName;
-        public final String lastName;
-        public final String phone;
-        public final String zip;
+        public  String firstName;
+        public  String lastName;
+        public  String phone;
+        public  String zip;
         public MedicalRecord medicalrecord;
-        public final String address;
-        public final String city;
-        public final String email;
+        public  String address;
+        public  String city;
+        public  String email;
 
 
         public static class PersonBuilder {
@@ -75,7 +75,7 @@ public class Person {
             }
         }
 
-        private Person(String firstName, String lastName, String phone, String zip, MedicalRecord medicalrecord, String address, String city, String email) {
+        public Person(String firstName, String lastName, String phone, String zip, MedicalRecord medicalrecord, String address, String city, String email) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.phone = phone;
@@ -113,6 +113,8 @@ public class Person {
     public String getEmail() {
         return email;
     }
+
+    public MedicalRecord getMedicalrecord() {return medicalrecord;}
 
     /**
      * Check if is this person is majeur or not
@@ -185,6 +187,38 @@ public class Person {
                 ", city='" + city + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setMedicalrecord(MedicalRecord medicalrecord) {
+        this.medicalrecord = medicalrecord;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 
