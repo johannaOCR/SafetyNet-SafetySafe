@@ -1,5 +1,6 @@
 package com.safetynet.safetynetalerts.Controller;
 import com.safetynet.safetynetalerts.Model.MedicalRecord;
+import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,7 @@ public class PersonController {
      * ***************************/
 
     @PostMapping("/person")
-    public String postPerson(
+    public void postPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="phone") String phone,
@@ -33,11 +34,14 @@ public class PersonController {
             @RequestParam(name="address") String address,
             @RequestParam(name="city") String city,
             @RequestParam(name="email") String email) {
-    return "todo";
+        Person person = new Person(firstName,lastName,phone,zip,null,address,city,email);
+        personService.save(person);
+       logger.info(getPersonByFirstnameLastname(lastName,firstName));
+       System.out.println(getPersonByFirstnameLastname(lastName,firstName));
     }
 
     @PutMapping("/person")
-    public String putPerson(
+    public void putPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="phone", required = false, value = "null") String phone,
@@ -46,16 +50,16 @@ public class PersonController {
             @RequestParam(name="city",required = false, value = "null") String city,
             @RequestParam(name="email",required = false, value = "null") String email) {
 
-        return "todo";
+        personService.update(firstName,lastName,phone,zip,address,city,email);
     }
 
     @DeleteMapping("/person")
-    public String deletePerson(
+    public void deletePerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName
     )
     {
-        return "todo";
+        personService.delete(firstName,lastName);
     }
 
     /*****************************

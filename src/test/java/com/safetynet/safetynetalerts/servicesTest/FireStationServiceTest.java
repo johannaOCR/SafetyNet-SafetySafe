@@ -2,12 +2,10 @@ package com.safetynet.safetynetalerts.servicesTest;
 
 import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
-import com.safetynet.safetynetalerts.Util.ImportData;
-
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
+
 
 import java.net.MalformedURLException;
 

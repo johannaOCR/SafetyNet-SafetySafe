@@ -1,11 +1,9 @@
 package com.safetynet.safetynetalerts.Controller;
 
-import Repository.FirestationDAO;
 import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
@@ -16,7 +14,6 @@ public class FireStationController {
 
     private FireStationService fireStationService = new FireStationService();
     private final static Logger logger = LogManager.getLogger("FirestationController") ;
-    private FirestationDAO firestationDAO;
 
     public FireStationController() throws MalformedURLException {
     }
@@ -39,20 +36,21 @@ public class FireStationController {
         fireStationService.save(new FireStation(stationNumber).addAddress(address));
     }
     @PutMapping("/firestation")
-    public String putFirestation(
-            @RequestParam(name="stationNumber") String stationNumber,
+    public void putFirestation(
+            @RequestParam(name="stationNumber") int stationNumber,
             @RequestParam(name="address") String address)
     {
-        return "todo";
+        fireStationService.update(address,stationNumber);
     }
 
 
     @DeleteMapping("/firestation")
-    public String deleteFirestation(
-            @RequestParam(name="stationNumber") String stationNumber,
+    public void deleteFirestation(
+            @RequestParam(name="stationNumber") int stationNumber,
             @RequestParam(name="address") String address)
     {
-        return "todo";
+        FireStation fireStation= new FireStation(stationNumber).addAddress(address);
+        fireStationService.delete(fireStation);
     }
     /*****************************
      *          SERVICES

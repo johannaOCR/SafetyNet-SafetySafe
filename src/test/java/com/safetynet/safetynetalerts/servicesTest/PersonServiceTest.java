@@ -168,10 +168,10 @@ public class PersonServiceTest {
 
     @Test
     public void deleteMedicalRecordTest(){
-        logger.info("**** BEFORE MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
-        personService.deleteMedicalRecord("Toto","Toto");
-        logger.info("**** AFTER MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Toto","Toto") + " \n\r **** END **** \r\n");
-        Assert.assertNull(personService.findPersonByFirstnameLastname("Toto","Toto"));
+        logger.info("**** BEFORE MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Peter","Duncan") + " \n\r **** END **** \r\n");
+        personService.deleteMedicalRecord("Peter","Duncan");
+        logger.info("**** AFTER MR DELETE **** \n\r" + personService.findPersonByFirstnameLastname("Peter","Duncan") + " \n\r **** END **** \r\n");
+        Assert.assertNull(personService.findPersonByFirstnameLastname("Peter","Duncan").getMedicalrecord());
     }
 
 }
