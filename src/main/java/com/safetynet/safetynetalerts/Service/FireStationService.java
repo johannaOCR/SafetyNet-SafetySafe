@@ -119,8 +119,9 @@ public class FireStationService {
             }
         }
         if(!isExist){
+            logger.info("Firestation save : " + newFirestation);
             firestations.add(newFirestation);
-            logger.info("Save OK");
+
         }
     }
 
@@ -149,7 +150,7 @@ public class FireStationService {
         for (FireStation fireStation : firestations){
             if (fireStation.getStationNumber() == stationNumber && i==0) {
                 fireStation.addAddress(address);
-                logger.info("Valid update");
+                logger.info("Firestation update : " +fireStation);
                 i++;
             }
         }
@@ -158,12 +159,30 @@ public class FireStationService {
         }
 
     }
-
-    public void delete(FireStation fireStation) {
-        try {
-            firestations.remove(fireStation);
-        } catch (Exception e) {
-            logger.error("delete not valid" + e);
+/*
+    Suppression d'une adresse sur une firestation
+    Une firestation peut avoir plusieurs adresses
+ */
+    public void delete(FireStation fireStationToDelete) {
+        Iterator<FireStation> iteratorFirestation = firestations.iterator();
+        while (iteratorFirestation.hasNext()){
+            FireStation fireStation = iteratorFirestation.next();
+            if(fireStation.getStationNumber() == fireStationToDelete.getStationNumber()){
+                Iterator<String> iteratorAddress = fireStation.getAddresses().iterator();
+                while (iteratorAddress.hasNext()){
+                    String address = iteratorAddress.next();
+                    for (String addressToDelete : fireStationToDelete.getAddresses()){
+                        if(Objects.equals(addressToDelete, address)){
+                            iteratorAddress.remove();
+                            logger.info("Address delete : " + address);
+                            if(fireStation.getAddresses().size() == 0){
+                                iteratorFirestation.remove();
+                                logger.info("Firestation delete : " +fireStation);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

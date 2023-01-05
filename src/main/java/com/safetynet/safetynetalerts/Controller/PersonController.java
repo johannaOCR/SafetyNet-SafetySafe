@@ -36,8 +36,6 @@ public class PersonController {
             @RequestParam(name="email") String email) {
         Person person = new Person(firstName,lastName,phone,zip,null,address,city,email);
         personService.save(person);
-       logger.info(getPersonByFirstnameLastname(lastName,firstName));
-       System.out.println(getPersonByFirstnameLastname(lastName,firstName));
     }
 
     @PutMapping("/person")
@@ -67,34 +65,34 @@ public class PersonController {
      * ***************************/
 
     @PostMapping("/medicalRecord")
-    public String postMedicalRecord(
+    public void postMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="medications", required = false, value = "null") List<String> medications,
             @RequestParam(name="allergies",required = false, value = "null") List<String> allergies,
             @RequestParam(name="birthdate",required = false, value = "null") Date birthdate)
     {
-        return "todo";
+        personService.saveMedicalRecord(firstName,lastName,medications,allergies,birthdate);
     }
 
     @PutMapping("/medicalRecord")
-    public String putMedicalRecord(
+    public void putMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="medications", required = false) List<String> medications,
             @RequestParam(name="allergies",required = false) List<String> allergies,
             @RequestParam(name="birthdate",required = false) Date birthdate)
      {
-        return "todo";
+        personService.updateMedicalRecord(firstName,lastName,medications,allergies,birthdate);
     }
 
     @DeleteMapping("/medicalRecord")
-    public String deleteMedicalRecord(
+    public void deleteMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName
     )
     {
-        return "todo";
+        personService.deleteMedicalRecord(firstName,lastName);
     }
 
     /*****************************

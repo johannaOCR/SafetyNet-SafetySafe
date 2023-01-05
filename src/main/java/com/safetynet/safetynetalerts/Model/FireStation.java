@@ -25,7 +25,7 @@ public class FireStation {
     }
 
     public Set<String> getAddresses() {
-        return new HashSet<>(addresses);
+        return addresses;
     }
 
     @Override

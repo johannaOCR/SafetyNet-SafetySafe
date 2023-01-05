@@ -99,8 +99,8 @@ public class FireStationServiceTest {
 
     @Test
     public void deleteTest(){
-        FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
-        this.fireStationService.save(fireStation);
+        FireStation fireStation = new FireStation(1).addAddress("29 15th St");
+        logger.info("Firestation to delete : "+fireStation);
         logger.info("BEFORE DELETE : " + this.fireStationService.findAllFirestation());
         this.fireStationService.delete(fireStation);
         logger.info("AFTER DELETE : " + this.fireStationService.findAllFirestation());
