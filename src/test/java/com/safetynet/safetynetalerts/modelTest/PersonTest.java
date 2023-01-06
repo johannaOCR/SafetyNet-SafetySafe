@@ -37,14 +37,13 @@ public class PersonTest {
         logger.info("testIsMajeurWhereIsMinor");
         List<String> medication = new ArrayList<>();
         List<String> allergies = new ArrayList<>();
+
+        //GIVEN
         Date dateMineur = new SimpleDateFormat("dd/MM/yyyy").parse("22/11/2005");
         MedicalRecord medicalRecordMineur = new MedicalRecord("test", "test", medication, allergies, dateMineur);
         Person personTestMineur = new Person.PersonBuilder().medicalRecord(medicalRecordMineur).lastName("test").firstName("test").city("test").address("test").email("test").phone("test").zip("test").build();
         logger.info("Result : " + personTestMineur.isMajeur());
+        // THEN
         Assert.assertFalse(personTestMineur.isMajeur());
     }
-    /**
-     * TODO: Test getAge(), test isEighteenOrLess(), test dateInMillisecond()
-     */
-
 }

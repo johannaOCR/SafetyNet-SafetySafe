@@ -141,23 +141,23 @@ public class PersonService {
     public void update(String firstname, String lastname, String phone, String zip, String address, String city, String email){
         for (Person person : personsList){
             if (Objects.equals(person.getFirstName(), firstname) && Objects.equals(person.getLastName(), lastname)){
-                if(!Objects.equals(phone, "null")){
+                if(!Objects.equals(phone, null)){
                     logger.info("Phone update : " + phone);
                     person.setPhone(phone);
                 }
-                if (!Objects.equals(zip, "null")){
+                if (!Objects.equals(zip, null)){
                     logger.info("Zip update : " + zip);
                     person.setZip(zip);
                 }
-                if (!Objects.equals(address, "null")) {
+                if (!Objects.equals(address,null)) {
                     logger.info("Address update : " + address);
                     person.setAddress(address);
                 }
-                if (!Objects.equals(city, "null")) {
+                if (!Objects.equals(city, null)) {
                     logger.info("City update : " + city);
                     person.setCity(city);
                 }
-                if (!Objects.equals(email, "null")) {
+                if (!Objects.equals(email, null)) {
                     logger.info("Email update : " + email);
                     person.setEmail(email);
                 }
@@ -169,7 +169,7 @@ public class PersonService {
         Person personResult = null;
 
         for (Person person : personsList){
-            if (person.getFirstName() == firstname && person.getLastName() == lastname){
+            if (Objects.equals(person.getFirstName(), firstname) && Objects.equals(person.getLastName(), lastname)){
                 personResult = person;
                 break;
             }

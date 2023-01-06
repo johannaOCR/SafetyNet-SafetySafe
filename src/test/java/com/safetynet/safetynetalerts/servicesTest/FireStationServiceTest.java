@@ -2,8 +2,10 @@ package com.safetynet.safetynetalerts.servicesTest;
 
 import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 
@@ -49,15 +51,16 @@ public class FireStationServiceTest {
         logger.info(fireStationService.personByFirestation(1));
         Assert.assertNotNull(fireStationService.personByFirestation(1));
         Assert.assertFalse(fireStationService.personByFirestation(1).isEmpty());
-        System.out.println(fireStationService.personByFirestation(1));
     }
 
     @Test
+    // TODO: 06/01/2023
     public void testPhoneAlertByStationNumber(){
         logger.info(fireStationService.phoneAlertByStationNumber(1));
     }
 
     @Test
+    // TODO: 06/01/2023
     public void testFloodByStationsNumbers() {
         List<Integer> firestationNumberList = new ArrayList<>();
         firestationNumberList.add(1);
@@ -67,22 +70,26 @@ public class FireStationServiceTest {
         logger.info(fireStationService.floodByStationsNumbers(firestationNumberList));
     }
     @Test
+    // TODO: 06/01/2023
     public void testFireByAddress(){
         String address = "908 73rd St";
         logger.info(fireStationService.fireByAddress(address));
     }
 
     @Test
+    // TODO: 06/01/2023
     public void findPersonByStationNumberTest() {
             logger.info(fireStationService.findPersonByStationNumber(1));
     }
 
     @Test
+    // TODO: 06/01/2023
     public void findAllFirestationTest(){
         logger.info(this.fireStationService.findAllFirestation().toString());
     }
 
     @Test
+    // TODO: 06/01/2023
     public void saveTest(){
         FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
         logger.info("BEFORE SAVE : " + this.fireStationService.findAllFirestation());
@@ -91,6 +98,7 @@ public class FireStationServiceTest {
     }
 
     @Test
+    // TODO: 06/01/2023
     public void updateTest(){
         logger.info("BEFORE UPDATE : " + this.fireStationService.findAllFirestation());
         this.fireStationService.update("834 Binoc Ave",3);
@@ -98,6 +106,7 @@ public class FireStationServiceTest {
     }
 
     @Test
+    // TODO: 06/01/2023
     public void deleteTest(){
         FireStation fireStation = new FireStation(1).addAddress("29 15th St");
         logger.info("Firestation to delete : "+fireStation);
@@ -107,6 +116,7 @@ public class FireStationServiceTest {
     }
 
     @Test
+    // TODO: 06/01/2023
     public void findByIdTest(){
         logger.info("LIST : " + this.fireStationService.findAllFirestation());
         logger.info("STATION NUMBER CHOISE 3 : " + this.fireStationService.findById(3));

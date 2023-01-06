@@ -42,11 +42,11 @@ public class PersonController {
     public void putPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
-            @RequestParam(name="phone", required = false, value = "null") String phone,
-            @RequestParam(name="zip",required = false, value = "null") String zip,
-            @RequestParam(name="address",required = false, value = "null") String address,
-            @RequestParam(name="city",required = false, value = "null") String city,
-            @RequestParam(name="email",required = false, value = "null") String email) {
+            @RequestParam(name="phone", required = false) String phone,
+            @RequestParam(name="zip",required = false) String zip,
+            @RequestParam(name="address",required = false) String address,
+            @RequestParam(name="city",required = false) String city,
+            @RequestParam(name="email",required = false) String email) {
 
         personService.update(firstName,lastName,phone,zip,address,city,email);
     }
@@ -68,9 +68,9 @@ public class PersonController {
     public void postMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
-            @RequestParam(name="medications", required = false, value = "null") List<String> medications,
-            @RequestParam(name="allergies",required = false, value = "null") List<String> allergies,
-            @RequestParam(name="birthdate",required = false, value = "null") Date birthdate)
+            @RequestParam(name="medications", required = false) List<String> medications,
+            @RequestParam(name="allergies",required = false) List<String> allergies,
+            @RequestParam(name="birthdate",required = false) Date birthdate)
     {
         personService.saveMedicalRecord(firstName,lastName,medications,allergies,birthdate);
     }

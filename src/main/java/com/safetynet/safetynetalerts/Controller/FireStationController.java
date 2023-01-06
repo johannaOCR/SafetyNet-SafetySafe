@@ -43,7 +43,6 @@ public class FireStationController {
         fireStationService.update(address,stationNumber);
     }
 
-
     @DeleteMapping("/firestation")
     public void deleteFirestation(
             @RequestParam(name="stationNumber") int stationNumber,
@@ -63,13 +62,13 @@ public class FireStationController {
     }
 
     @GetMapping("/phoneAlert")
-        public String getPhoneByStationNumber(@RequestParam(name="firestation", required = true) int firestation) {
-            logger.info("Get /phoneAlert?firestation="+firestation);
-            return fireStationService.phoneAlertByStationNumber(firestation);
+        public String getPhoneByStationNumber(@RequestParam(name="stationNumber", required = true) int station_number) {
+            logger.info("Get /phoneAlert?stationNumber="+station_number);
+            return fireStationService.phoneAlertByStationNumber(station_number);
     }
 
     @GetMapping("/fire")
-    public String getPhoneByStationNumber(@RequestParam(name="address", required = true) String address) {
+    public String getPersonByFire(@RequestParam(name="address", required = true) String address) {
         logger.info("Get /fire?address="+address);
         return fireStationService.fireByAddress(address);
     }
