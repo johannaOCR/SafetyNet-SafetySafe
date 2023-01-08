@@ -36,7 +36,7 @@ public class FireStationService {
      * ***************************/
 
     /**
-     * TODO Use a BDD then rewrite this comment
+     * Find all firestations
      * @return a list of Firestation object
      */
     public List<FireStation> findAll() {
