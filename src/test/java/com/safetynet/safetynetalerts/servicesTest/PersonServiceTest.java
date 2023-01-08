@@ -6,9 +6,12 @@ import com.safetynet.safetynetalerts.Service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import java.net.MalformedURLException;
 import java.util.*;
 
+@SpringBootTest
 public class PersonServiceTest {
     PersonService personService = new PersonService();
     private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("PersonServiceTest") ;
@@ -27,6 +30,7 @@ public class PersonServiceTest {
     // TODO: 06/01/2023
     public void testfindNumberOfAdult(){
         logger.info(personService.findNumberOfAdult(personService.findAll()));
+        Assert.assertNotEquals(0,personService.findNumberOfAdult(personService.findAll()));
     }
 
     @Test

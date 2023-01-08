@@ -2,11 +2,10 @@ package com.safetynet.safetynetalerts.servicesTest;
 
 import com.safetynet.safetynetalerts.Model.FireStation;
 import com.safetynet.safetynetalerts.Service.FireStationService;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.net.MalformedURLException;
@@ -14,6 +13,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest
 public class FireStationServiceTest {
     FireStationService fireStationService = new FireStationService();
 

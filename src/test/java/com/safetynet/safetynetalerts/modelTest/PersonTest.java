@@ -8,11 +8,13 @@ import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@SpringBootTest
 public class PersonTest {
     Person person;
     Mockito mockito;
