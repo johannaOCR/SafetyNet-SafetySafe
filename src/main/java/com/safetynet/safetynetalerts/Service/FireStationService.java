@@ -102,14 +102,6 @@ public class FireStationService {
         return null;
     }
 
-    public FireStation findByFirestation(int stationNumber) {
-        for(FireStation fireStation : firestations){
-            if(fireStation.getStationNumber() == stationNumber){
-                return fireStation;
-            }
-        }
-        return null;
-    }
     public void save(FireStation newFirestation) {
         boolean isExist = false;
         for (FireStation fireS : firestations){

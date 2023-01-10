@@ -88,14 +88,18 @@ public class ImportData {
     private List<Person> loadPerson(Any file){
         Any personAny = file.get("persons");
         List<Person> persons = new ArrayList<>();
-        personAny.forEach(a -> persons.add(new Person.PersonBuilder().firstName(a.get("firstName").toString())
-                .address(a.get("address").toString())
-                .city(a.get("city").toString())
-                .lastName(a.get("lastName").toString())
-                .phone(a.get("phone").toString())
-                .zip(a.get("zip").toString())
-                .email(a.get("email").toString())
-                .build()));
+        personAny.forEach(a -> persons.add(
+                new Person(
+                        a.get("firstName").toString(),
+                        a.get("lastName").toString(),
+                        a.get("phone").toString(),
+                        a.get("zip").toString(),
+                        null,
+                        a.get("address").toString(),
+                        a.get("city").toString(),
+                        a.get("email").toString()
+                        )
+        ));
         List<MedicalRecord> medicalRecordsList = this.loadMedicalRecord(file);
         for (MedicalRecord medicalRecord : medicalRecordsList) {
             for (Person person : persons) {

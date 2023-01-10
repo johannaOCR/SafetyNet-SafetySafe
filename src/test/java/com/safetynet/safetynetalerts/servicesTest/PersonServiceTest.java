@@ -116,7 +116,6 @@ public class PersonServiceTest {
     }
 
     @Test
-    // TODO: 06/01/2023
     public void testCommunityEmailByCity() {
         logger.info(personService.communityEmailByCity("Culver"));
 
@@ -127,72 +126,102 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void findAllPersonsTest(){
-        logger.info("findAllPersonsTest()");
+    public void testFindAllPersons(){
+        logger.info("testFindAllPersons()");
         Assert.assertNotNull(personService.findAllPersons());
     }
 
     @Test
-    public void saveTest(){
-        logger.info("saveTest()");
+    public void testSave(){
+        logger.info("testSave()");
         Person person = new Person("Felicia", "Boyd", "841-874-6544","97451" , null,"1509 Culver St" ,"Culver" ,"jaboyd@email.com");
         personService.save(person);
         Assert.assertTrue(personService.findAllPersons().contains(person));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void updateTest(){
-        logger.info("updateTest()");
-        List<String> m2 = new ArrayList<>(); m2.add(""); List<String> a2 = new ArrayList<>(); a2.add("");
-        MedicalRecord medicalRecord = new MedicalRecord("Jonanathan","Marrack",m2,a2,new Date("01/03/1989"));
-        Person person = new Person("Jonanathan","Marrack","841-874-6513","97451",medicalRecord,"29 15th St","Culver","drk@email.com");
-        personService.update("Jonanathan","Marrack", "","THE_TEST_IS_HERE_1","THE_TEST_IS_HERE_2","","");
-        Person personNew = new Person("Jonanathan","Marrack","","THE_TEST_IS_HERE_1",null,"THE_TEST_IS_HERE_2","","");
-        logger.info(personService.findAllPersons());
-        Assert.assertTrue(personService.findAllPersons().contains(personNew));
+    public void testUpdate(){
+        logger.info("testUpdate()");
+
+        Person person = personService.findPersonByFirstnameLastname("Toto","Toto");
+        Person personResult = person;
+        personResult.setZip("test");
+        personResult.setAddress("test");
+        personResult.setCity("test");
+        personResult.setEmail("");
+        personResult.setPhone("");
+
+        personService.update(personResult.getFirstName(),personResult.getLastName(), personResult.getPhone(),personResult.getZip(),personResult.getAddress(),personResult.getCity(),personResult.getEmail());
+
+        Assert.assertTrue(personService.findAllPersons().contains(personResult));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void deleteTest(){
-        Person person = new Person("Jonanathan","Marrack","841-874-6513","97451",null,"29 15th St","Culver","drk@email.com");
+    public void testDelete(){
+        logger.info("testDelete()");
+
+        Person person = personService.findPersonByFirstnameLastname("Jonanathan","Marrack");
         personService.delete("Jonanathan","Marrack");
+
+        Assert.assertFalse(personService.findAllPersons().contains(person));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void findPersonByFirstnameLastname(){
-        logger.info(personService.findPersonByFirstnameLastname("Foster","Shepard"));
+    public void testFindPersonByFirstnameLastname(){
+        logger.info("testFindPersonByFirstnameLastname()");
+
+        Person person = new Person("test", "test","000000000","test",null,"test","test","test");
+        personService.save(person);
+        Person personResult = personService.findPersonByFirstnameLastname("test","test");
+
+        Assert.assertEquals(person,personResult);
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void updateMedicalRecordTest(){
+    public void testUpdateMedicalRecord(){
+        logger.info("testUpdateMedicalRecord()");
+
+        MedicalRecord medicalRecord = personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord();
+        MedicalRecord medicalRecordResult = medicalRecord;
         List<String> medication = new ArrayList<>();
         List<String> allergie = new ArrayList<>();
-        Date birthdate = new Date("01/06/2011");
         medication.add("testMedication");
         allergie.add("testAllergie");
-        MedicalRecord medicalRecord = new MedicalRecord("Foster","Shepard",medication,allergie,birthdate);
-        personService.updateMedicalRecord(medicalRecord.getFirstname(),medicalRecord.getLastname(),medication,allergie,birthdate);
+        medicalRecordResult.setBirthdate(new Date("01/09/2011"));
+        medicalRecordResult.setMedications(medication);
+        medicalRecordResult.setAllergies(allergie);
+
+        personService.updateMedicalRecord(
+                medicalRecordResult.getFirstname(),
+                medicalRecordResult.getLastname(),
+                medicalRecordResult.getMedications(),
+                medicalRecordResult.getAllergies(),
+                medicalRecordResult.getBirthdate()
+        );
+
+        Assert.assertEquals(personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord(),medicalRecordResult);
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void saveMedicalRecordTest(){
+    public void testSaveMedicalRecord(){
+        logger.info("testSaveMedicalRecord()");
+
         List<String> medication = new ArrayList<>();
         List<String> allergie = new ArrayList<>();
         Date birthdate = new Date("10/10/2010");
         medication.add("testMedication");
         allergie.add("testAllergie");
         personService.saveMedicalRecord("Toto","Toto",medication,allergie,birthdate);
+
+        Assert.assertNotNull(personService.findPersonByFirstnameLastname("Toto","Toto").getMedicalrecord());
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void deleteMedicalRecordTest(){
+    public void testDeleteMedicalRecord(){
+        logger.info("testDeleteMedicalRecord()");
+
         personService.deleteMedicalRecord("Peter","Duncan");
+
         Assert.assertNull(personService.findPersonByFirstnameLastname("Peter","Duncan").getMedicalrecord());
     }
 

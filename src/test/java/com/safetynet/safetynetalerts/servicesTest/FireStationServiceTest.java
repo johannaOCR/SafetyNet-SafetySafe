@@ -5,13 +5,8 @@ import com.safetynet.safetynetalerts.Service.FireStationService;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
-
-
-import java.io.IOException;
 import java.net.MalformedURLException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +22,7 @@ public class FireStationServiceTest {
     @Test
     public void testfindAll() {
         logger.info("testfindAll()");
+
         Assert.assertNotNull(fireStationService.findAll());
         Assert.assertFalse(fireStationService.findAll().isEmpty());
     }
@@ -34,6 +30,7 @@ public class FireStationServiceTest {
     @Test
     public void testFindByStationNumber() {
         logger.info("testFindById()");
+
         Assert.assertNotNull(fireStationService.findByStationNumber(1));
         Assert.assertFalse(fireStationService.findByStationNumber(1).toString().isEmpty());
     }
@@ -41,12 +38,14 @@ public class FireStationServiceTest {
     @Test
     public void testFindByStationNumberWithoutGoodID() {
         logger.info("testFindByWithoutGoodID()");
+
         Assert.assertNull(fireStationService.findByStationNumber(5));
     }
 
     @Test
     public void testPersonByFirestation(){
         logger.info("personByFirestationTest()");
+
         logger.info(fireStationService.personByFirestation(1));
         Assert.assertNotNull(fireStationService.personByFirestation(1));
         Assert.assertFalse(fireStationService.personByFirestation(1).isEmpty());
@@ -55,6 +54,7 @@ public class FireStationServiceTest {
     @Test
     public void testPhoneAlertByStationNumber(){
         logger.info("testPhoneAlertByStationNumber()");
+
         Assert.assertNotNull(fireStationService.phoneAlertByStationNumber(1));
         Assert.assertFalse(fireStationService.phoneAlertByStationNumber(1).isEmpty());
     }
@@ -83,57 +83,56 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void findPersonByStationNumberTest() {
-        logger.info("findPersonByStationNumberTest()");
+    public void testFindPersonByStationNumber() {
+        logger.info("testFindPersonByStationNumber()");
+
         Assert.assertNotNull(fireStationService.findPersonByStationNumber(1));
         Assert.assertFalse(fireStationService.findPersonByStationNumber(1).isEmpty());
     }
 
     @Test
-    public void findAllFirestationTest(){
-        logger.info("findAllFirestationTest()");
+    public void testFindAllFirestation(){
+        logger.info("testFindAllFirestation()");
+
         Assert.assertNotNull(fireStationService.findAllFirestation().toString());
         Assert.assertFalse(fireStationService.findAllFirestation().toString().isEmpty());
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void saveTest(){
-        logger.info("saveTest()");
+    public void testSave(){
+        logger.info("testSave()");
 
         FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
-        logger.info("BEFORE SAVE : " + this.fireStationService.findAllFirestation());
-        this.fireStationService.save(fireStation);
-        logger.info("AFTER SAVE : " + this.fireStationService.findAllFirestation());
+        fireStationService.save(fireStation);
+
+        Assert.assertTrue(fireStationService.findAllFirestation().contains(fireStation));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void updateTest(){
-        logger.info("updateTest()");
+    public void testUpdate(){
+        logger.info("testUpdate()");
 
-        logger.info("BEFORE UPDATE : " + this.fireStationService.findAllFirestation());
-        this.fireStationService.update("834 Binoc Ave",3);
-        logger.info("AFTER UPDATE : " + this.fireStationService.findAllFirestation());
+        String address = "834 Binoc Ave";
+        fireStationService.update(address,3);
+
+        Assert.assertTrue(fireStationService.findByStationNumber(3).getAddresses().contains(address));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void deleteTest(){
-        logger.info("updateTest()");
+    public void testDelete(){
+        logger.info("testDelete()");
 
-        FireStation fireStation = new FireStation(1).addAddress("29 15th St");
-        logger.info("Firestation to delete : "+fireStation);
-        logger.info("BEFORE DELETE : " + this.fireStationService.findAllFirestation());
-        this.fireStationService.delete(fireStation);
-        logger.info("AFTER DELETE : " + this.fireStationService.findAllFirestation());
+        String address = "29 15th St";
+        FireStation fireStation = new FireStation(1).addAddress(address);
+
+        fireStationService.delete(fireStation);
+        Assert.assertFalse(fireStationService.findByStationNumber(1).getAddresses().contains(address));
     }
 
     @Test
-    // TODO: 06/01/2023
-    public void findByIdTest(){
-        logger.info("findByIdTest()");
-        logger.info("LIST : " + this.fireStationService.findAllFirestation());
-        logger.info("STATION NUMBER CHOISE 3 : " + this.fireStationService.findById(3));
+    public void testFindByID(){
+        logger.info("testFindByID()");
+
+        Assert.assertNotNull(fireStationService.findById(3));
     }
 }

@@ -29,8 +29,7 @@ public class PersonTest {
 
         Date dateMajeur = new SimpleDateFormat("dd/MM/yyyy").parse("04/10/2004");
         MedicalRecord medicalRecordMajeur = new MedicalRecord("test", "test", medication, allergies, dateMajeur);
-        Person personTestMajeur = new Person.PersonBuilder().medicalRecord(medicalRecordMajeur).lastName("test").firstName("test").city("test").address("test").email("test").phone("test").zip("test").build();
-        logger.info("Result : " + personTestMajeur.isMajeur());
+        Person personTestMajeur = new Person("test","test","test","test",medicalRecordMajeur,"test","test","test");
         Assert.assertTrue(personTestMajeur.isMajeur());
     }
 
@@ -43,8 +42,7 @@ public class PersonTest {
         //GIVEN
         Date dateMineur = new SimpleDateFormat("dd/MM/yyyy").parse("22/11/2005");
         MedicalRecord medicalRecordMineur = new MedicalRecord("test", "test", medication, allergies, dateMineur);
-        Person personTestMineur = new Person.PersonBuilder().medicalRecord(medicalRecordMineur).lastName("test").firstName("test").city("test").address("test").email("test").phone("test").zip("test").build();
-        logger.info("Result : " + personTestMineur.isMajeur());
+        Person personTestMineur = new Person("test","test","test","test",medicalRecordMineur,"test","test","test");
         // THEN
         Assert.assertFalse(personTestMineur.isMajeur());
     }

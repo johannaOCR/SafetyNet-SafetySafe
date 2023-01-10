@@ -39,7 +39,7 @@ public class PersonService {
      * ***************************/
 
     /**
-     * TODO Use a BDD then rewrite this comment :p
+     * Find all the person
      * @return a list of all the Person objects
      */
     public List<Person> findAll() {
