@@ -129,16 +129,18 @@ public class PersonService {
         return personsList;
     }
 
-    public void save(Person person) {
+    public boolean save(Person person) {
         if(!personsList.contains(person)){
             personsList.add(person);
             logger.info("Person save : " + person);
+            return true;
         } else {
             logger.info("Person already exist. Do an update for modification");
+            return false;
         }
     }
 
-    public void update(String firstname, String lastname, String phone, String zip, String address, String city, String email){
+    public boolean update(String firstname, String lastname, String phone, String zip, String address, String city, String email){
         for (Person person : personsList){
             if (Objects.equals(person.getFirstName(), firstname) && Objects.equals(person.getLastName(), lastname)){
                 if(!Objects.equals(phone, null)){
@@ -161,8 +163,10 @@ public class PersonService {
                     logger.info("Email update : " + email);
                     person.setEmail(email);
                 }
+                return true;
             }
         }
+        return false;
     }
 
     public Person findPersonByFirstnameLastname(String firstname, String lastname){
@@ -180,7 +184,7 @@ public class PersonService {
         return personResult;
     }
 
-    public void delete(String firstname, String lastname) {
+    public boolean delete(String firstname, String lastname) {
         Person personToDelete = null;
 
         for (Person person : personsList){
@@ -191,8 +195,10 @@ public class PersonService {
         if (personToDelete != null) {
             logger.info("Delete Person : " + personToDelete);
             personsList.remove(personToDelete);
+            return true;
         } else {
             logger.info("invalid delete");
+            return false;
         }
     }
 
@@ -200,18 +206,20 @@ public class PersonService {
      *   C.R.U.D. MedicalRecord
      * ***************************/
 
-    public void saveMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
+    public boolean saveMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
         Person personResult = findPersonByFirstnameLastname(firstname,lastname);
         if (personResult != null) {
             MedicalRecord medicalRecord = new MedicalRecord(firstname, lastname, medication, allergie, birthdate);
             logger.info("MedicalRecord save : " + medicalRecord);
             personResult.setMedicalrecord(medicalRecord);
+            return true;
         } else {
             logger.error("this person not exist");
+            return false;
         }
     }
 
-    public void updateMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
+    public boolean updateMedicalRecord(String firstname,String lastname, List<String> medication, List<String> allergie, Date birthdate){
         Person personResult = findPersonByFirstnameLastname(firstname,lastname);
         if (personResult != null) {
             if(medication.isEmpty() && allergie.isEmpty() && birthdate==null){
@@ -229,22 +237,26 @@ public class PersonService {
                 logger.info("birthdate update : "+birthdate);
                 personResult.getMedicalrecord().setBirthdate(birthdate);
             }
+            return true;
         } else {
             logger.error("this person not exist");
+            return false;
         }
     }
 
-    public void deleteMedicalRecord(String firstname, String lastname){
+    public boolean deleteMedicalRecord(String firstname, String lastname){
         Person personResult = findPersonByFirstnameLastname(firstname,lastname);
         if (personResult != null) {
             for (Person person : personsList) {
                 if (person == personResult) {
                     logger.info("Medical record delete : " + person.getMedicalrecord());
                     person.setMedicalrecord(null);
+                    return true;
 
                 }
             }
         }
+        return false;
     }
 
     /*****************************

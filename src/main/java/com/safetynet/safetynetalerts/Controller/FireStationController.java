@@ -15,7 +15,7 @@ import java.util.List;
 public class FireStationController {
 
     private final FireStationService fireStationService = new FireStationService();
-    private final BuilderResponse<String> builderResponse = new BuilderResponse<String>();
+    private final BuilderResponse<String> builderResponse = new BuilderResponse<>();
     private final static Logger logger = LogManager.getLogger("FirestationController") ;
 
     public FireStationController() throws MalformedURLException {

@@ -135,7 +135,8 @@ public class PersonServiceTest {
     public void testSave(){
         logger.info("testSave()");
         Person person = new Person("Felicia", "Boyd", "841-874-6544","97451" , null,"1509 Culver St" ,"Culver" ,"jaboyd@email.com");
-        personService.save(person);
+        boolean result = personService.save(person);
+        Assert.assertTrue(result);
         Assert.assertTrue(personService.findAllPersons().contains(person));
     }
 
@@ -148,13 +149,14 @@ public class PersonServiceTest {
         personResult.setCity("test");
         personResult.setEmail("");
         personResult.setPhone("");
-        personService.update(personResult.getFirstName(),
+        boolean result = personService.update(personResult.getFirstName(),
                 personResult.getLastName(),
                 personResult.getPhone(),
                 personResult.getZip(),
                 personResult.getAddress(),
                 personResult.getCity(),
                 personResult.getEmail());
+        Assert.assertTrue(result);
         Assert.assertTrue(personService.findAllPersons().contains(personResult));
     }
 
@@ -162,7 +164,8 @@ public class PersonServiceTest {
     public void testDelete(){
         logger.info("testDelete()");
         Person person = personService.findPersonByFirstnameLastname("Jonanathan","Marrack");
-        personService.delete("Jonanathan","Marrack");
+        boolean result = personService.delete("Jonanathan","Marrack");
+        Assert.assertTrue(result);
         Assert.assertFalse(personService.findAllPersons().contains(person));
     }
 
@@ -190,7 +193,7 @@ public class PersonServiceTest {
         medicalRecordResult.setMedications(medication);
         medicalRecordResult.setAllergies(allergie);
 
-        personService.updateMedicalRecord(
+        boolean result = personService.updateMedicalRecord(
                 medicalRecordResult.getFirstname(),
                 medicalRecordResult.getLastname(),
                 medicalRecordResult.getMedications(),
@@ -198,6 +201,7 @@ public class PersonServiceTest {
                 medicalRecordResult.getBirthdate()
         );
 
+        Assert.assertTrue(result);
         Assert.assertEquals(personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord(),medicalRecordResult);
     }
 
@@ -210,8 +214,9 @@ public class PersonServiceTest {
         Date birthdate = new Date("10/10/2010");
         medication.add("testMedication");
         allergie.add("testAllergie");
-        personService.saveMedicalRecord("Toto","Toto",medication,allergie,birthdate);
+        boolean result = personService.saveMedicalRecord("Toto","Toto",medication,allergie,birthdate);
 
+        Assert.assertTrue(result);
         Assert.assertNotNull(personService.findPersonByFirstnameLastname("Toto","Toto").getMedicalrecord());
     }
 
@@ -219,9 +224,9 @@ public class PersonServiceTest {
     public void testDeleteMedicalRecord(){
         logger.info("testDeleteMedicalRecord()");
 
-        personService.deleteMedicalRecord("Peter","Duncan");
+        boolean result = personService.deleteMedicalRecord("Peter","Duncan");
 
+        Assert.assertTrue(result);
         Assert.assertNull(personService.findPersonByFirstnameLastname("Peter","Duncan").getMedicalrecord());
     }
-
 }

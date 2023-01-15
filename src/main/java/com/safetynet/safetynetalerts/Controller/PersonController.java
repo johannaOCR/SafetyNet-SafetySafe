@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.Controller;
-import com.safetynet.safetynetalerts.Model.MedicalRecord;
 import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;
+import com.safetynet.safetynetalerts.Util.BuilderResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -9,26 +9,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 public class PersonController {
-    private PersonService personService = new PersonService();
+    private final PersonService personService = new PersonService();
+    private final BuilderResponse<String> builderResponse = new BuilderResponse<>();
     private final static Logger logger = LogManager.getLogger("PersonController") ;
-    private List<String> listNullDefault = new ArrayList<String>();
 
     public PersonController() throws MalformedURLException {
     }
 
-
     /*****************************
      *     C.R.U.D. Person
-     * ***************************/
+     *
+     * @return***************************/
 
     @PostMapping("/person")
-    public void postPerson(
+    public ResponseEntity<?> postPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="phone") String phone,
@@ -37,11 +36,11 @@ public class PersonController {
             @RequestParam(name="city") String city,
             @RequestParam(name="email") String email) {
         Person person = new Person(firstName,lastName,phone,zip,null,address,city,email);
-        personService.save(person);
+        return builderResponse.responseBoolean(personService.save(person));
     }
 
     @PutMapping("/person")
-    public void putPerson(
+    public ResponseEntity<?> putPerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="phone", required = false) String phone,
@@ -49,52 +48,52 @@ public class PersonController {
             @RequestParam(name="address",required = false) String address,
             @RequestParam(name="city",required = false) String city,
             @RequestParam(name="email",required = false) String email) {
-
-        personService.update(firstName,lastName,phone,zip,address,city,email);
+        return builderResponse.responseBoolean(personService.update(firstName,lastName,phone,zip,address,city,email));
     }
 
     @DeleteMapping("/person")
-    public void deletePerson(
+    public ResponseEntity<?> deletePerson(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName
     )
     {
-        personService.delete(firstName,lastName);
+        return builderResponse.responseBoolean(personService.delete(firstName,lastName));
     }
 
     /*****************************
      *   C.R.U.D. MedicalRecord
-     * ***************************/
+     *
+     * @return***************************/
 
     @PostMapping("/medicalRecord")
-    public void postMedicalRecord(
+    public ResponseEntity<?> postMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="medications", required = false) List<String> medications,
             @RequestParam(name="allergies",required = false) List<String> allergies,
             @RequestParam(name="birthdate",required = false) Date birthdate)
     {
-        personService.saveMedicalRecord(firstName,lastName,medications,allergies,birthdate);
+        return builderResponse.responseBoolean(personService.saveMedicalRecord(firstName,lastName,medications,allergies,birthdate));
     }
 
     @PutMapping("/medicalRecord")
-    public void putMedicalRecord(
+    public ResponseEntity<?> putMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName,
             @RequestParam(name="medications", required = false) List<String> medications,
             @RequestParam(name="allergies",required = false) List<String> allergies,
             @RequestParam(name="birthdate",required = false) Date birthdate)
      {
-        personService.updateMedicalRecord(firstName,lastName,medications,allergies,birthdate);
+         return builderResponse.responseBoolean(personService.updateMedicalRecord(firstName,lastName,medications,allergies,birthdate));
     }
 
     @DeleteMapping("/medicalRecord")
-    public void deleteMedicalRecord(
+    public ResponseEntity<?> deleteMedicalRecord(
             @RequestParam(name="firstname") String firstName,
             @RequestParam(name="lastname") String lastName
     )
     {
-        personService.deleteMedicalRecord(firstName,lastName);
+        return builderResponse.responseBoolean(personService.deleteMedicalRecord(firstName,lastName));
     }
 
     /*****************************
