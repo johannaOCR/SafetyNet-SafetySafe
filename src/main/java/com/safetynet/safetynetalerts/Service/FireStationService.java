@@ -42,7 +42,7 @@ public class FireStationService {
     public List<FireStation> findAll() {
         List<FireStation> listFirestations = new ArrayList<>();
         try {
-            listFirestations.addAll(importData.loadFirestation());
+            listFirestations.addAll(importData.loadFirestations());
         } catch (IOException e) {
             logger.error(e);
         }
@@ -93,7 +93,6 @@ public class FireStationService {
     }
 
     public FireStation findById(int stationNumber) {
-        boolean isExist = false;
         for(FireStation fireStation : firestations) {
             if (fireStation.getStationNumber() == stationNumber) {
                 return fireStation;
@@ -102,22 +101,19 @@ public class FireStationService {
         return null;
     }
 
-    public void save(FireStation newFirestation) {
-        boolean isExist = false;
+    public boolean save(FireStation newFirestation) {
         for (FireStation fireS : firestations){
             if (fireS.getStationNumber() == newFirestation.getStationNumber()) {
                 logger.info("Station number already exist. Do an update.");
-                isExist = true;
+                return false;
             }
         }
-        if(!isExist){
-            logger.info("Firestation save : " + newFirestation);
-            firestations.add(newFirestation);
-
-        }
+        logger.info("Firestation save : " + newFirestation);
+        firestations.add(newFirestation);
+        return true;
     }
 
-    public void update(String address, int stationNumber) {
+    public boolean update(String address, int stationNumber) {
         int i = 0;
         boolean isExist = false;
         int stationNumberToDelete=0;
@@ -148,14 +144,16 @@ public class FireStationService {
         }
         if (i==0){
             logger.info("Updating failed");
+            return false;
         }
+        return true;
 
     }
 /*
     Suppression d'une adresse sur une firestation
     Une firestation peut avoir plusieurs adresses
  */
-    public void delete(FireStation fireStationToDelete) {
+    public boolean delete(FireStation fireStationToDelete) {
         Iterator<FireStation> iteratorFirestation = firestations.iterator();
         while (iteratorFirestation.hasNext()){
             FireStation fireStation = iteratorFirestation.next();
@@ -171,11 +169,13 @@ public class FireStationService {
                                 iteratorFirestation.remove();
                                 logger.info("Firestation delete : " +fireStation);
                             }
+                            return true;
                         }
                     }
                 }
             }
         }
+        return false;
     }
 
     /*****************************
@@ -320,5 +320,3 @@ public class FireStationService {
         return response;
     }
 }
-
-

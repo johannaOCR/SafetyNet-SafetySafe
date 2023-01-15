@@ -142,27 +142,27 @@ public class PersonServiceTest {
     @Test
     public void testUpdate(){
         logger.info("testUpdate()");
-
-        Person person = personService.findPersonByFirstnameLastname("Toto","Toto");
-        Person personResult = person;
+        Person personResult = this.personService.findPersonByFirstnameLastname("Toto","Toto");
         personResult.setZip("test");
         personResult.setAddress("test");
         personResult.setCity("test");
         personResult.setEmail("");
         personResult.setPhone("");
-
-        personService.update(personResult.getFirstName(),personResult.getLastName(), personResult.getPhone(),personResult.getZip(),personResult.getAddress(),personResult.getCity(),personResult.getEmail());
-
+        personService.update(personResult.getFirstName(),
+                personResult.getLastName(),
+                personResult.getPhone(),
+                personResult.getZip(),
+                personResult.getAddress(),
+                personResult.getCity(),
+                personResult.getEmail());
         Assert.assertTrue(personService.findAllPersons().contains(personResult));
     }
 
     @Test
     public void testDelete(){
         logger.info("testDelete()");
-
         Person person = personService.findPersonByFirstnameLastname("Jonanathan","Marrack");
         personService.delete("Jonanathan","Marrack");
-
         Assert.assertFalse(personService.findAllPersons().contains(person));
     }
 
@@ -181,8 +181,7 @@ public class PersonServiceTest {
     public void testUpdateMedicalRecord(){
         logger.info("testUpdateMedicalRecord()");
 
-        MedicalRecord medicalRecord = personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord();
-        MedicalRecord medicalRecordResult = medicalRecord;
+        MedicalRecord medicalRecordResult = this.personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord();
         List<String> medication = new ArrayList<>();
         List<String> allergie = new ArrayList<>();
         medication.add("testMedication");

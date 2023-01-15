@@ -35,7 +35,7 @@ public class ImportData {
         try {
             urlLoad = url.openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(urlLoad, StandardCharsets.UTF_8));
-            Text = Read(rd);
+            Text = read(rd);
         } catch (Exception e){
             logger.error(e.getMessage());
         } finally {
@@ -58,7 +58,7 @@ public class ImportData {
      * @return Le fichier distant web au format String
      * @throws IOException
      */
-    public String Read(Reader re) throws IOException {
+    public String read(Reader re) throws IOException {
         StringBuilder str = new StringBuilder();
         int temp;
         do {
@@ -116,24 +116,24 @@ public class ImportData {
      * @return Une Arraylist de FireStation
      * @throws IOException
      */
-    public List<FireStation> loadFirestation() throws IOException {
+    public List<FireStation> loadFirestations() throws IOException {
         Any file = loadFileByUrl();
-        return this.loadFirestation(file);
+        return this.loadFirestations(file);
     }
 
     /**
      *  Fonction instanciant les objets de type FireStation contenus dans le fichier distant
      * @return Une Arraylist de FireStation
-     * @throws IOException
      */
-    private List<FireStation> loadFirestation(Any file){
+    private List<FireStation> loadFirestations(Any file){
         Map<String, FireStation> fireStationMap = new HashMap<>();
         Any fireStationAny = file.get("firestations");
         fireStationAny.forEach(anyStation -> {
             fireStationMap.compute(anyStation.get("station").toString(),
                     (k, v) -> v == null ?
-                            new FireStation(anyStation.get("station").toInt()).addAddress(anyStation.get("address").toString()) :
-                            v.addAddress(anyStation.get("address").toString()));
+                            new FireStation(anyStation.get("station").toInt())
+                                    .addAddress(anyStation.get("address").toString()) :
+                                    v.addAddress(anyStation.get("address").toString()));
         });
         List<FireStation> fireStations = new ArrayList<>(fireStationMap.values());
         return fireStations;

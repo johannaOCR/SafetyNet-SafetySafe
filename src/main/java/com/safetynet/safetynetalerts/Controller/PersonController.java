@@ -4,6 +4,8 @@ import com.safetynet.safetynetalerts.Model.Person;
 import com.safetynet.safetynetalerts.Service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
@@ -100,21 +102,33 @@ public class PersonController {
      * ***************************/
 
     @GetMapping("/childAlert")
-    public String getChildAndFamilyByAddress(@RequestParam(name="address", required = true) String address) {
+    public ResponseEntity<String>  getChildAndFamilyByAddress(@RequestParam(name="address") String address) {
         logger.info("Get /childAlert?address="+address);
-        return personService.childAlertByAddress(address);
+        if(!personService.childAlertByAddress(address).isEmpty()){
+            return new ResponseEntity<>(personService.childAlertByAddress(address), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/personInfo")
-    public String getPersonByFirstnameLastname(@RequestParam(name="lastname", required = true) String lastname, @RequestParam(name="firstname", required = true) String firstname) {
+    public ResponseEntity<String> getPersonByFirstnameLastname(@RequestParam(name="lastname") String lastname, @RequestParam(name="firstname") String firstname) {
         logger.info("Get /personInfo?firstName="+firstname+"&lastName="+lastname);
-        return personService.personInfoByFirstNameLastName(firstname,lastname);
+        if(!personService.personInfoByFirstNameLastName(firstname,lastname).isEmpty()){
+            return new ResponseEntity<>(personService.personInfoByFirstNameLastName(firstname,lastname), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/communityEmail")
-    public String getEmailByCity(@RequestParam(name="city", required = true) String city) {
+    public ResponseEntity<String> getEmailByCity(@RequestParam(name="city") String city) {
         logger.info("Get communityEmail?city="+city);
-        return personService.communityEmailByCity(city);
+        if(!personService.communityEmailByCity(city).isEmpty()){
+            return new ResponseEntity<>(personService.communityEmailByCity(city), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
 

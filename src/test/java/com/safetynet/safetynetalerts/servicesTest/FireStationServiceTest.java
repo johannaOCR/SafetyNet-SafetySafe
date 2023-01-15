@@ -72,6 +72,7 @@ public class FireStationServiceTest {
         Assert.assertNotNull(fireStationService.floodByStationsNumbers(firestationNumberList));
         Assert.assertFalse(fireStationService.floodByStationsNumbers(firestationNumberList).isEmpty());
     }
+
     @Test
     public void testFireByAddress(){
         logger.info("testFireByAddress()");
@@ -103,8 +104,8 @@ public class FireStationServiceTest {
         logger.info("testSave()");
 
         FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
-        fireStationService.save(fireStation);
-
+        boolean result = fireStationService.save(fireStation);
+        Assert.assertTrue(result);
         Assert.assertTrue(fireStationService.findAllFirestation().contains(fireStation));
     }
 
@@ -113,8 +114,8 @@ public class FireStationServiceTest {
         logger.info("testUpdate()");
 
         String address = "834 Binoc Ave";
-        fireStationService.update(address,3);
-
+        boolean result = fireStationService.update(address,3);
+        Assert.assertTrue(result);
         Assert.assertTrue(fireStationService.findByStationNumber(3).getAddresses().contains(address));
     }
 
@@ -125,7 +126,8 @@ public class FireStationServiceTest {
         String address = "29 15th St";
         FireStation fireStation = new FireStation(1).addAddress(address);
 
-        fireStationService.delete(fireStation);
+        boolean result = fireStationService.delete(fireStation);
+        Assert.assertTrue(result);
         Assert.assertFalse(fireStationService.findByStationNumber(1).getAddresses().contains(address));
     }
 

@@ -27,9 +27,9 @@ public class ImportDataTest {
 
     @Test
     public void testLoadFirestation() throws IOException {
-        logger.info(importData.loadFirestation());
-        Assert.assertNotNull(importData.loadFirestation());
-        Assert.assertFalse(importData.loadFirestation().isEmpty());
+        logger.info(importData.loadFirestations());
+        Assert.assertNotNull(importData.loadFirestations());
+        Assert.assertFalse(importData.loadFirestations().isEmpty());
     }
 
     @Test

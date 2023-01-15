@@ -3,8 +3,8 @@ package com.safetynet.safetynetalerts.Response;
 import java.util.List;
 
 public class ListPersonByStationNumberByListAddressesResponse {
-    int stationNumber;
-    List<PersonByAddressByFirestationResponse> listPersonsByAddress;
+    private int stationNumber;
+    private List<PersonByAddressByFirestationResponse> listPersonsByAddress;
 
     public ListPersonByStationNumberByListAddressesResponse(int stationNumber, List<PersonByAddressByFirestationResponse> listPersonsByAddress) {
         this.stationNumber = stationNumber;
