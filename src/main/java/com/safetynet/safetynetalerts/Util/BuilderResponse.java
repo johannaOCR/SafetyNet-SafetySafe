@@ -5,10 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class BuilderResponse<obj> {
+public class BuilderResponse {
     private final static Logger logger = LogManager.getLogger("BuilderReponse") ;
 
-    public ResponseEntity<?> customResponse(obj obj){
+    public ResponseEntity<?> customResponse(String obj){
         if(obj != null){
             logger.info("Requete réalisé avec un code retour : " +HttpStatus.OK);
             return new ResponseEntity<>(obj, HttpStatus.OK);

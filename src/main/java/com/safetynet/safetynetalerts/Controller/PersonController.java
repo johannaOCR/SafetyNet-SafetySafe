@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class PersonController {
     private final PersonService personService = new PersonService();
-    private final BuilderResponse<String> builderResponse = new BuilderResponse<>();
+    private final BuilderResponse builderResponse = new BuilderResponse();
     private final static Logger logger = LogManager.getLogger("PersonController") ;
 
     public PersonController() throws MalformedURLException {
@@ -24,7 +24,7 @@ public class PersonController {
     /*****************************
      *     C.R.U.D. Person
      *
-     * @return***************************/
+     * ***************************/
 
     @PostMapping("/person")
     public ResponseEntity<?> postPerson(
@@ -63,7 +63,7 @@ public class PersonController {
     /*****************************
      *   C.R.U.D. MedicalRecord
      *
-     * @return***************************/
+     * ***************************/
 
     @PostMapping("/medicalRecord")
     public ResponseEntity<?> postMedicalRecord(
