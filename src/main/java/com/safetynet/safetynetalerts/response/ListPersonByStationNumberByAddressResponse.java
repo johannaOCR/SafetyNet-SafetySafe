@@ -1,6 +1,4 @@
-package com.safetynet.safetynetalerts.Response;
-
-import java.util.List;
+package com.safetynet.safetynetalerts.response;
 
 public class ListPersonByStationNumberByAddressResponse {
     int stationNumber;

@@ -1,19 +1,20 @@
-package com.safetynet.safetynetalerts.Response;
+package com.safetynet.safetynetalerts.response;
 
 import java.util.List;
 
-public class PersonInfoByAddressByStationNumber {
-
+public class PersonInfoByFirstnameLastnameResponse {
     String lastname;
+    String address;
     int age;
-    String phone;
+    String email;
     List<String> medication;
     List<String> allergies;
 
-    public PersonInfoByAddressByStationNumber(String lastname, int age, String phone, List<String> medication, List<String> allergies) {
+    public PersonInfoByFirstnameLastnameResponse(String lastname, String address, int age, String email, List<String> medication, List<String> allergies) {
         this.lastname = lastname;
+        this.address = address;
         this.age = age;
-        this.phone = phone;
+        this.email = email;
         this.medication = medication;
         this.allergies = allergies;
     }
@@ -26,6 +27,14 @@ public class PersonInfoByAddressByStationNumber {
         this.lastname = lastname;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public int getAge() {
         return age;
     }
@@ -34,12 +43,12 @@ public class PersonInfoByAddressByStationNumber {
         this.age = age;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<String> getMedication() {

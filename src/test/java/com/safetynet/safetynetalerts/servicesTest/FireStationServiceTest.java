@@ -1,20 +1,20 @@
 package com.safetynet.safetynetalerts.servicesTest;
 
-import com.safetynet.safetynetalerts.Model.FireStation;
-import com.safetynet.safetynetalerts.Service.FireStationService;
+import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.service.FireStationService;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
 public class FireStationServiceTest {
-    FireStationService fireStationService = new FireStationService();
-
     private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("FireStationServiceTest");
+    FireStationService fireStationService = new FireStationService();
 
     public FireStationServiceTest() throws MalformedURLException {
     }
@@ -43,7 +43,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testPersonByFirestation(){
+    public void testPersonByFirestation() {
         logger.info("personByFirestationTest()");
 
         logger.info(fireStationService.personByFirestation(1));
@@ -52,7 +52,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testPhoneAlertByStationNumber(){
+    public void testPhoneAlertByStationNumber() {
         logger.info("testPhoneAlertByStationNumber()");
 
         Assert.assertNotNull(fireStationService.phoneAlertByStationNumber(1));
@@ -74,7 +74,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testFireByAddress(){
+    public void testFireByAddress() {
         logger.info("testFireByAddress()");
 
         String address = "908 73rd St";
@@ -92,7 +92,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testFindAllFirestation(){
+    public void testFindAllFirestation() {
         logger.info("testFindAllFirestation()");
 
         Assert.assertNotNull(fireStationService.findAllFirestation().toString());
@@ -100,7 +100,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testSave(){
+    public void testSave() {
         logger.info("testSave()");
 
         FireStation fireStation = new FireStation(7).addAddress("NOUVELLE ADRESSE");
@@ -110,17 +110,17 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         logger.info("testUpdate()");
 
         String address = "834 Binoc Ave";
-        boolean result = fireStationService.update(address,3);
+        boolean result = fireStationService.update(address, 3);
         Assert.assertTrue(result);
         Assert.assertTrue(fireStationService.findByStationNumber(3).getAddresses().contains(address));
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         logger.info("testDelete()");
 
         String address = "29 15th St";
@@ -132,7 +132,7 @@ public class FireStationServiceTest {
     }
 
     @Test
-    public void testFindByID(){
+    public void testFindByID() {
         logger.info("testFindByID()");
 
         Assert.assertNotNull(fireStationService.findById(3));

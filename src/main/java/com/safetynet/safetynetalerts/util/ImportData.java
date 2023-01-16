@@ -1,12 +1,13 @@
-package com.safetynet.safetynetalerts.Util;
+package com.safetynet.safetynetalerts.util;
 
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalerts.Model.FireStation;
-import com.safetynet.safetynetalerts.Model.MedicalRecord;
-import com.safetynet.safetynetalerts.Model.Person;
+import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.model.Person;
 import org.apache.logging.log4j.LogManager;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,30 +17,31 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-
 public class ImportData {
 
-    private final URL url  = new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json");
-    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("ImportData") ;
+    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("ImportData");
+    private final URL url = new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json");
 
 
-    public ImportData() throws MalformedURLException {}
+    public ImportData() throws MalformedURLException {
+    }
 
     /**
      * Récupère les données depuis le fichier distant web
+     *
      * @return le fichier des données de type Any
      */
-    public Any loadFileByUrl()   {
+    public Any loadFileByUrl() {
         String Text = null;
         InputStream urlLoad = null;
         try {
             urlLoad = url.openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(urlLoad, StandardCharsets.UTF_8));
             Text = read(rd);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         } finally {
-            if(urlLoad != null) {
+            if (urlLoad != null) {
                 try {
                     urlLoad.close();
                 } catch (Exception e) {
@@ -54,6 +56,7 @@ public class ImportData {
 
     /**
      * Reader du fichier distant web. Permet de récupérer toutes les données du fichier.
+     *
      * @param re
      * @return Le fichier distant web au format String
      * @throws IOException
@@ -63,29 +66,32 @@ public class ImportData {
         int temp;
         do {
             temp = re.read();
-            str.append((char)temp);
+            str.append((char) temp);
 
         } while (temp != -1);
 
         // On soustrait les caractères en dehors du tableau
         int index = str.toString().lastIndexOf("}");
-        String result = str.toString().substring(0,index+1);
+        String result = str.substring(0, index + 1);
         return result;
     }
 
     /**
      * Fonction instanciant les objets de type Person et de type Médical Record contenus dans le fichier distant
+     *
      * @return Une arraylist de Person
      */
-    public  List<Person> loadPerson(){
+    public List<Person> loadPerson() {
         Any file = this.loadFileByUrl();
         return loadPerson(file);
     }
+
     /**
      * Fonction instanciant les objets de type Person  et de type Médical Record contenus dans le fichier distant
+     *
      * @return Une arraylist de Person
      */
-    private List<Person> loadPerson(Any file){
+    private List<Person> loadPerson(Any file) {
         Any personAny = file.get("persons");
         List<Person> persons = new ArrayList<>();
         personAny.forEach(a -> persons.add(
@@ -98,12 +104,12 @@ public class ImportData {
                         a.get("address").toString(),
                         a.get("city").toString(),
                         a.get("email").toString()
-                        )
+                )
         ));
         List<MedicalRecord> medicalRecordsList = this.loadMedicalRecord(file);
         for (MedicalRecord medicalRecord : medicalRecordsList) {
             for (Person person : persons) {
-                if((Objects.equals(medicalRecord.getFirstname(), person.getFirstName())) & (Objects.equals(medicalRecord.getLastname(), person.getLastName()))){
+                if ((Objects.equals(medicalRecord.getFirstname(), person.getFirstName())) & (Objects.equals(medicalRecord.getLastname(), person.getLastName()))) {
                     person.medicalrecord = medicalRecord;
                 }
             }
@@ -112,7 +118,8 @@ public class ImportData {
     }
 
     /**
-     *  Fonction instanciant les objets de type FireStation contenus dans le fichier distant
+     * Fonction instanciant les objets de type FireStation contenus dans le fichier distant
+     *
      * @return Une Arraylist de FireStation
      * @throws IOException
      */
@@ -122,10 +129,11 @@ public class ImportData {
     }
 
     /**
-     *  Fonction instanciant les objets de type FireStation contenus dans le fichier distant
+     * Fonction instanciant les objets de type FireStation contenus dans le fichier distant
+     *
      * @return Une Arraylist de FireStation
      */
-    private List<FireStation> loadFirestations(Any file){
+    private List<FireStation> loadFirestations(Any file) {
         Map<String, FireStation> fireStationMap = new HashMap<>();
         Any fireStationAny = file.get("firestations");
         fireStationAny.forEach(anyStation -> {
@@ -133,7 +141,7 @@ public class ImportData {
                     (k, v) -> v == null ?
                             new FireStation(anyStation.get("station").toInt())
                                     .addAddress(anyStation.get("address").toString()) :
-                                    v.addAddress(anyStation.get("address").toString()));
+                            v.addAddress(anyStation.get("address").toString()));
         });
         List<FireStation> fireStations = new ArrayList<>(fireStationMap.values());
         return fireStations;
@@ -141,10 +149,11 @@ public class ImportData {
 
     /**
      * Fonction instanciant des objets du type MedicalRecord à partir du fichier distant
+     *
      * @param file
      * @return
      */
-    public List<MedicalRecord> loadMedicalRecord(Any file){
+    public List<MedicalRecord> loadMedicalRecord(Any file) {
         Any medicalRecordAny = file.get("medicalrecords");
         List<MedicalRecord> medicalRecords = new ArrayList<>();
         medicalRecordAny.forEach(a -> {
@@ -170,6 +179,4 @@ public class ImportData {
         });
         return medicalRecords;
     }
-
-
 }

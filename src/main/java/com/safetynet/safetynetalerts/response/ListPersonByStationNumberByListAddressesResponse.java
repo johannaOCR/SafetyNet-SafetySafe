@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.Response;
+package com.safetynet.safetynetalerts.response;
 
 import java.util.List;
 

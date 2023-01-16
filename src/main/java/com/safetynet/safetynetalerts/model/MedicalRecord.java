@@ -1,16 +1,16 @@
-package com.safetynet.safetynetalerts.Model;
+package com.safetynet.safetynetalerts.model;
 
 import java.util.Date;
 import java.util.List;
 
 public class MedicalRecord {
-    private String firstname;
-    private String lastname;
     public List<String> medications;
     public List<String> allergies;
     public Date birthdate;
+    private String firstname;
+    private String lastname;
 
-    public MedicalRecord(String firstname, String lastname,List<String> medications,List<String> allergies, Date birthdate) {
+    public MedicalRecord(String firstname, String lastname, List<String> medications, List<String> allergies, Date birthdate) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.medications = medications;
@@ -22,11 +22,11 @@ public class MedicalRecord {
         return medications;
     }
 
-    public void setMedications(List<String>medications) {
+    public void setMedications(List<String> medications) {
         this.medications = medications;
     }
 
-    public List<String>  getAllergies() {
+    public List<String> getAllergies() {
         return allergies;
     }
 

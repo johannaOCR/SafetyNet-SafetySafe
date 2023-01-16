@@ -1,22 +1,22 @@
 package com.safetynet.safetynetalerts.util;
 
-import com.safetynet.safetynetalerts.Util.BuilderResponse;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class BuilderResponseTest {
-    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("BuilderResponseTest") ;
-    private final BuilderResponse builderResponseUnderTest= new BuilderResponse();
+    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("BuilderResponseTest");
+    private final BuilderResponse builderResponseUnderTest = new BuilderResponse();
 
     @Test
     public void testCustomResponse() {
         logger.info("testCustomResponse()");
-        String obj =  "test";
+        String obj = "test";
         final ResponseEntity<?> result = builderResponseUnderTest.customResponse(obj);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }

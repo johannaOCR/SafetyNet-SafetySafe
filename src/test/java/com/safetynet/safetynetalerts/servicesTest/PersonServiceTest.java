@@ -1,8 +1,8 @@
 package com.safetynet.safetynetalerts.servicesTest;
 
-import com.safetynet.safetynetalerts.Model.MedicalRecord;
-import com.safetynet.safetynetalerts.Model.Person;
-import com.safetynet.safetynetalerts.Service.PersonService;
+import com.safetynet.safetynetalerts.model.MedicalRecord;
+import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.service.PersonService;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import java.util.*;
 
 @SpringBootTest
 public class PersonServiceTest {
+    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("PersonServiceTest");
     PersonService personService = new PersonService();
-    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("PersonServiceTest") ;
 
     public PersonServiceTest() throws MalformedURLException {
     }
@@ -32,24 +32,24 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testfindNumberOfAdult(){
+    public void testfindNumberOfAdult() {
         logger.info("testfindNumberOfAdult()");
-        Assert.assertNotEquals(0,personService.findNumberOfAdult(personService.findAll()));
+        Assert.assertNotEquals(0, personService.findNumberOfAdult(personService.findAll()));
     }
 
     @Test
-    public void testFindNumberOfChild(){
+    public void testFindNumberOfChild() {
         logger.info("testFindNumberOfChild()");
-        Assert.assertNotEquals(0,personService.findNumberOfChild(personService.findAll()));
+        Assert.assertNotEquals(0, personService.findNumberOfChild(personService.findAll()));
     }
 
     @Test
-    public void testfindAllByAdresses(){
+    public void testfindAllByAdresses() {
         logger.info("testfindAllByAdresses()");
 
         Set<String> adresses = new HashSet<>();
         List<Person> persons = personService.findAll();
-        for (Person person : persons){
+        for (Person person : persons) {
             adresses.add(person.getAddress());
         }
         List<Person> personsResult = personService.findAllByAddresses(adresses);
@@ -57,15 +57,16 @@ public class PersonServiceTest {
         Assert.assertNotNull(personsResult);
         Assert.assertFalse(personsResult.isEmpty());
     }
+
     @Test
-    public void testFindAllByAddresses(){
+    public void testFindAllByAddresses() {
         logger.info("testFindAllByAddresses()");
 
         List<Person> persons;
-        Set<String> addresses= new HashSet<>();
+        Set<String> addresses = new HashSet<>();
         persons = personService.findAll();
-        for(Person person : persons) {
-            if(person.getAddress().contains("a")){
+        for (Person person : persons) {
+            if (person.getAddress().contains("a")) {
                 addresses.add(person.getAddress());
             }
         }
@@ -76,7 +77,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testFindAllByAddress(){
+    public void testFindAllByAddress() {
         logger.info("testFindAllByAddress()");
 
         Assert.assertNotNull(personService.findAllByAddress("1509 Culver St"));
@@ -84,7 +85,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testFindAllByCity(){
+    public void testFindAllByCity() {
         logger.info("testFindAllByCity()");
 
         Assert.assertNotNull(personService.findAllByCity("Culver"));
@@ -92,7 +93,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testChildAlertByAddress(){
+    public void testChildAlertByAddress() {
         logger.info("testChildAlertByAddress()");
 
         Assert.assertNotNull(personService.childAlertByAddress("1509 Culver St"));
@@ -100,7 +101,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testChildAlertByAddressWithoutChild(){
+    public void testChildAlertByAddressWithoutChild() {
         logger.info("testChildAlertByAddressWithoutChild()");
 
         Assert.assertNotNull(personService.childAlertByAddress("29 15th St"));
@@ -111,8 +112,8 @@ public class PersonServiceTest {
     public void testPersonInfoByFirstNameLastName() {
         logger.info("testPersonInfoByFirstNameLastName()");
 
-        Assert.assertNotNull(personService.personInfoByFirstNameLastName("Brian","Stelzer"));
-        Assert.assertFalse(personService.personInfoByFirstNameLastName("Brian","Stelzer").isEmpty());
+        Assert.assertNotNull(personService.personInfoByFirstNameLastName("Brian", "Stelzer"));
+        Assert.assertFalse(personService.personInfoByFirstNameLastName("Brian", "Stelzer").isEmpty());
     }
 
     @Test
@@ -126,24 +127,37 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testFindAllPersons(){
+    public void testFindAllPersons() {
         logger.info("testFindAllPersons()");
         Assert.assertNotNull(personService.findAllPersons());
     }
 
     @Test
-    public void testSave(){
+    public void testSave() {
         logger.info("testSave()");
-        Person person = new Person("Felicia", "Boyd", "841-874-6544","97451" , null,"1509 Culver St" ,"Culver" ,"jaboyd@email.com");
+        Person person = new Person("Felicia", "Boyd", "841-874-6544", "97451", null, "1509 Culver St", "Culver", "jaboyd@email.com");
         boolean result = personService.save(person);
         Assert.assertTrue(result);
         Assert.assertTrue(personService.findAllPersons().contains(person));
     }
 
     @Test
-    public void testUpdate(){
+    public void testSaveUnknownPerson() {
+        logger.info("testSaveUnknownPerson()");
+        List<String> m1 = new ArrayList<>();
+        m1.add("");
+        List<String> a1 = new ArrayList<>();
+        a1.add("");
+        Person person = new Person("Jonanathan", "Marrack", "841-874-6513", "97451", new MedicalRecord("Jonanathan", "Marrack", m1, a1, new Date("01/03/1989")), "29 15th St", "Culver", "drk@email.com");
+        boolean result = personService.save(person);
+        Assert.assertFalse(result);
+        Assert.assertNotNull(personService.findPersonByFirstnameLastname(person.getFirstName(), person.getLastName()));
+    }
+
+    @Test
+    public void testUpdate() {
         logger.info("testUpdate()");
-        Person personResult = this.personService.findPersonByFirstnameLastname("Toto","Toto");
+        Person personResult = this.personService.findPersonByFirstnameLastname("Toto", "Toto");
         personResult.setZip("test");
         personResult.setAddress("test");
         personResult.setCity("test");
@@ -161,30 +175,38 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         logger.info("testDelete()");
-        Person person = personService.findPersonByFirstnameLastname("Jonanathan","Marrack");
-        boolean result = personService.delete("Jonanathan","Marrack");
+        Person person = personService.findPersonByFirstnameLastname("Jonanathan", "Marrack");
+        boolean result = personService.delete("Jonanathan", "Marrack");
         Assert.assertTrue(result);
         Assert.assertFalse(personService.findAllPersons().contains(person));
     }
 
     @Test
-    public void testFindPersonByFirstnameLastname(){
-        logger.info("testFindPersonByFirstnameLastname()");
-
-        Person person = new Person("test", "test","000000000","test",null,"test","test","test");
-        personService.save(person);
-        Person personResult = personService.findPersonByFirstnameLastname("test","test");
-
-        Assert.assertEquals(person,personResult);
+    public void testDeleteUnknownPerson() {
+        logger.info("testDeleteUnknownPerson()");
+        Person person = new Person("Felicia", "Dupond", "841-874-6544", "97451", null, "1509 Culver St", "Culver", "jaboyd@email.com");
+        boolean result = personService.delete("Felicia", "Dupond");
+        Assert.assertFalse(result);
     }
 
     @Test
-    public void testUpdateMedicalRecord(){
+    public void testFindPersonByFirstnameLastname() {
+        logger.info("testFindPersonByFirstnameLastname()");
+
+        Person person = new Person("test", "test", "000000000", "test", null, "test", "test", "test");
+        personService.save(person);
+        Person personResult = personService.findPersonByFirstnameLastname("test", "test");
+
+        Assert.assertEquals(person, personResult);
+    }
+
+    @Test
+    public void testUpdateMedicalRecord() {
         logger.info("testUpdateMedicalRecord()");
 
-        MedicalRecord medicalRecordResult = this.personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord();
+        MedicalRecord medicalRecordResult = this.personService.findPersonByFirstnameLastname("Foster", "Shepard").getMedicalrecord();
         List<String> medication = new ArrayList<>();
         List<String> allergie = new ArrayList<>();
         medication.add("testMedication");
@@ -202,11 +224,33 @@ public class PersonServiceTest {
         );
 
         Assert.assertTrue(result);
-        Assert.assertEquals(personService.findPersonByFirstnameLastname("Foster","Shepard").getMedicalrecord(),medicalRecordResult);
+        Assert.assertEquals(personService.findPersonByFirstnameLastname("Foster", "Shepard").getMedicalrecord(), medicalRecordResult);
     }
 
     @Test
-    public void testSaveMedicalRecord(){
+    public void testUpdateMedicalRecordWithEmptyRecord() {
+        logger.info("testUpdateMedicalRecordWithEmptyRecord()");
+
+        MedicalRecord medicalRecordResult = this.personService.findPersonByFirstnameLastname("Foster", "Shepard").getMedicalrecord();
+        List<String> medication = new ArrayList<>();
+        List<String> allergie = new ArrayList<>();
+        medicalRecordResult.setBirthdate(null);
+        medicalRecordResult.setMedications(medication);
+        medicalRecordResult.setAllergies(allergie);
+
+        boolean result = personService.updateMedicalRecord(
+                medicalRecordResult.getFirstname(),
+                medicalRecordResult.getLastname(),
+                medicalRecordResult.getMedications(),
+                medicalRecordResult.getAllergies(),
+                medicalRecordResult.getBirthdate()
+        );
+
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testSaveMedicalRecord() {
         logger.info("testSaveMedicalRecord()");
 
         List<String> medication = new ArrayList<>();
@@ -214,19 +258,35 @@ public class PersonServiceTest {
         Date birthdate = new Date("10/10/2010");
         medication.add("testMedication");
         allergie.add("testAllergie");
-        boolean result = personService.saveMedicalRecord("Toto","Toto",medication,allergie,birthdate);
+        boolean result = personService.saveMedicalRecord("Toto", "Toto", medication, allergie, birthdate);
 
         Assert.assertTrue(result);
-        Assert.assertNotNull(personService.findPersonByFirstnameLastname("Toto","Toto").getMedicalrecord());
+        Assert.assertNotNull(personService.findPersonByFirstnameLastname("Toto", "Toto").getMedicalrecord());
     }
 
     @Test
-    public void testDeleteMedicalRecord(){
+    public void testSaveMedicalRecordUnknownPerson() {
+        logger.info("testSaveMedicalRecordUnknownPerson()");
+
+        List<String> medication = new ArrayList<>();
+        List<String> allergie = new ArrayList<>();
+        Date birthdate = new Date("10/10/2010");
+        medication.add("testMedication");
+        allergie.add("testAllergie");
+        boolean result = personService.saveMedicalRecord("Toto", "tutu", medication, allergie, birthdate);
+
+        Assert.assertFalse(result);
+        Assert.assertNull(personService.findPersonByFirstnameLastname("Toto", "tutu"));
+    }
+
+
+    @Test
+    public void testDeleteMedicalRecord() {
         logger.info("testDeleteMedicalRecord()");
 
-        boolean result = personService.deleteMedicalRecord("Peter","Duncan");
+        boolean result = personService.deleteMedicalRecord("Peter", "Duncan");
 
         Assert.assertTrue(result);
-        Assert.assertNull(personService.findPersonByFirstnameLastname("Peter","Duncan").getMedicalrecord());
+        Assert.assertNull(personService.findPersonByFirstnameLastname("Peter", "Duncan").getMedicalrecord());
     }
 }

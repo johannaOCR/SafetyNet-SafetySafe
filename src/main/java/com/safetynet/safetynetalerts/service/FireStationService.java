@@ -1,24 +1,24 @@
-package com.safetynet.safetynetalerts.Service;
+package com.safetynet.safetynetalerts.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.safetynet.safetynetalerts.Model.FireStation;
-import com.safetynet.safetynetalerts.Model.Person;
-import com.safetynet.safetynetalerts.Response.*;
-import com.safetynet.safetynetalerts.Util.ImportData;
+import com.safetynet.safetynetalerts.model.FireStation;
+import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.response.*;
+import com.safetynet.safetynetalerts.util.ImportData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 public class FireStationService {
     private final static Logger logger = LogManager.getLogger("FirestationService");
-    private final ImportData importData = new ImportData();
-    private final PersonService personService = new PersonService();
-    private final GsonBuilder builder = new GsonBuilder();
     public static List<FireStation> firestations = new ArrayList<>();
+
     static {
         firestations.add(new FireStation(1).addAddress("29 15th St"));
         firestations.add(new FireStation(2).addAddress("834 Binoc Ave"));
@@ -27,6 +27,10 @@ public class FireStationService {
         firestations.add(new FireStation(6).addAddress("112 Steppes Pl"));
         firestations.add(new FireStation(8).addAddress("489 Manchester St"));
     }
+
+    private final ImportData importData = new ImportData();
+    private final PersonService personService = new PersonService();
+    private final GsonBuilder builder = new GsonBuilder();
 
     public FireStationService() throws MalformedURLException {
     }
@@ -37,6 +41,7 @@ public class FireStationService {
 
     /**
      * Find all firestations
+     *
      * @return a list of Firestation object
      */
     public List<FireStation> findAll() {
@@ -51,6 +56,7 @@ public class FireStationService {
 
     /**
      * Find a firstation based on the given station number
+     *
      * @param stationNumber the station number
      * @return a Firestation Object
      */
@@ -71,13 +77,14 @@ public class FireStationService {
 
     /**
      * Find the Station number from the given address
+     *
      * @param address
      * @return
      */
-    public int findStationNumberByAddress(String address){
+    public int findStationNumberByAddress(String address) {
         List<FireStation> fireStationList = this.findAll();
-        for (FireStation firestation : fireStationList){
-            if (firestation.getAddresses().contains(address)){
+        for (FireStation firestation : fireStationList) {
+            if (firestation.getAddresses().contains(address)) {
                 return firestation.getStationNumber();
             }
         }
@@ -92,8 +99,13 @@ public class FireStationService {
         return firestations;
     }
 
+    /**
+     * Return a firestation based on the given stationNumber
+     * @param stationNumber  the station number
+     * @return a firestation object or null if it doesn't exist
+     */
     public FireStation findById(int stationNumber) {
-        for(FireStation fireStation : firestations) {
+        for (FireStation fireStation : firestations) {
             if (fireStation.getStationNumber() == stationNumber) {
                 return fireStation;
             }
@@ -101,8 +113,13 @@ public class FireStationService {
         return null;
     }
 
+    /**
+     * save the given firestation object in the firestation list if it doesn't exist
+     * @param newFirestation the firestation to save
+     * @return true if it's saved, false otherwise
+     */
     public boolean save(FireStation newFirestation) {
-        for (FireStation fireS : firestations){
+        for (FireStation fireS : firestations) {
             if (fireS.getStationNumber() == newFirestation.getStationNumber()) {
                 logger.info("Station number already exist. Do an update.");
                 return false;
@@ -113,10 +130,16 @@ public class FireStationService {
         return true;
     }
 
+    /**
+     * Update the firestation based on the given station number if it exists
+     * @param address the address to add
+     * @param stationNumber the firestation number
+     * @return true if succeeded, false otherwise
+     */
     public boolean update(String address, int stationNumber) {
         int i = 0;
         boolean isExist = false;
-        int stationNumberToDelete=0;
+        int stationNumberToDelete = 0;
         // deletion de l'adresse de la firestation
         for (FireStation fireStation : firestations) {
             if (fireStation.getAddresses().contains(address) && fireStation.getStationNumber() != stationNumber) {
@@ -129,45 +152,46 @@ public class FireStationService {
             }
         }
         // Suppression de la firestation si sans adresse associée
-        if(isExist){
+        if (isExist) {
             FireStation firestationASupp = findById(stationNumberToDelete);
             this.delete(firestationASupp);
         }
-        ;
         // Ajout de l'adresse sur la nouvelle station number si inconnu, renvoi un msg pour un post au lieu d'un put
-        for (FireStation fireStation : firestations){
-            if (fireStation.getStationNumber() == stationNumber && i==0) {
+        for (FireStation fireStation : firestations) {
+            if (fireStation.getStationNumber() == stationNumber && i == 0) {
                 fireStation.addAddress(address);
-                logger.info("Firestation update : " +fireStation);
+                logger.info("Firestation update : " + fireStation);
                 i++;
             }
         }
-        if (i==0){
+        if (i == 0) {
             logger.info("Updating failed");
             return false;
         }
         return true;
 
     }
-/*
-    Suppression d'une adresse sur une firestation
-    Une firestation peut avoir plusieurs adresses
- */
+
+    /**
+     * Delete an address of firestation, if there is no more address the firestation is deleted
+     * @param fireStationToDelete the firestation object to delete
+     * @return true if the deletion succeeded, false otherwise
+     */
     public boolean delete(FireStation fireStationToDelete) {
         Iterator<FireStation> iteratorFirestation = firestations.iterator();
-        while (iteratorFirestation.hasNext()){
+        while (iteratorFirestation.hasNext()) {
             FireStation fireStation = iteratorFirestation.next();
-            if(fireStation.getStationNumber() == fireStationToDelete.getStationNumber()){
+            if (fireStation.getStationNumber() == fireStationToDelete.getStationNumber()) {
                 Iterator<String> iteratorAddress = fireStation.getAddresses().iterator();
-                while (iteratorAddress.hasNext()){
+                while (iteratorAddress.hasNext()) {
                     String address = iteratorAddress.next();
-                    for (String addressToDelete : fireStationToDelete.getAddresses()){
-                        if(Objects.equals(addressToDelete, address)){
+                    for (String addressToDelete : fireStationToDelete.getAddresses()) {
+                        if (Objects.equals(addressToDelete, address)) {
                             iteratorAddress.remove();
                             logger.info("Address delete : " + address);
-                            if(fireStation.getAddresses().size() == 0){
+                            if (fireStation.getAddresses().size() == 0) {
                                 iteratorFirestation.remove();
-                                logger.info("Firestation delete : " +fireStation);
+                                logger.info("Firestation delete : " + fireStation);
                             }
                             return true;
                         }
@@ -185,6 +209,7 @@ public class FireStationService {
     /**
      * firestation?stationNumber=<station_number>
      * Build a json formatted string of all the person covered by a firestation with the given number
+     *
      * @param numberfirestation the firestation number
      * @return A json formatted string of all the person, and the number of child and adult
      */
@@ -199,17 +224,17 @@ public class FireStationService {
 
         for (Person person : persons) {
             PersonByFirestationPersonInfoResponse personDetail = new PersonByFirestationPersonInfoResponse(
-                person.getFirstName(),
-                person.getLastName(),
-                person.getAddress(),
-                person.getPhone()
+                    person.getFirstName(),
+                    person.getLastName(),
+                    person.getAddress(),
+                    person.getPhone()
             );
             personsResultList.add(personDetail);
         }
         PersonByFirestationResponse result = new PersonByFirestationResponse(
-            adulte,
-            child,
-            personsResultList
+                adulte,
+                child,
+                personsResultList
         );
         return (gson.toJson(result));
     }
@@ -237,6 +262,7 @@ public class FireStationService {
     /**
      * /fire?address=<address>
      * Build a json formatted string of persons living at given address and the corresponding station number
+     *
      * @param address the address to look at
      * @return a json formatted string of persons living at given address and the corresponding station number
      */
@@ -261,7 +287,7 @@ public class FireStationService {
                 address,
                 personInfo
         );
-        ListPersonByStationNumberByAddressResponse response =  new ListPersonByStationNumberByAddressResponse(
+        ListPersonByStationNumberByAddressResponse response = new ListPersonByStationNumberByAddressResponse(
                 stationNumber,
                 result
         );
@@ -272,10 +298,11 @@ public class FireStationService {
      * flood/stations?stations=<a list of station_numbers>
      * Build a json formatted string of all the persons covered by the Firestation based on the given
      * list of station number
+     *
      * @param firestationNumbers a list of station number
      * @return a json formatted string of all the persons covered by the Firestation
      */
-    public String floodByStationsNumbers(List<Integer> firestationNumbers){
+    public String floodByStationsNumbers(List<Integer> firestationNumbers) {
         Gson gson = builder.create();
         List<ListPersonByStationNumberByListAddressesResponse> response = new ArrayList<>();
         for (int number : firestationNumbers) {
@@ -286,6 +313,7 @@ public class FireStationService {
 
     /**
      * Build a list of all the persons covered by the Firestation based on the given station number
+     *
      * @param stationNumber a station number
      * @return a list of all the persons covered by the Firestation as a PersonByAddressByFirestationResponse Object
      */
@@ -299,11 +327,11 @@ public class FireStationService {
                 if (person.getAddress().equals(address)) {
                     PersonInfoByAddressByStationNumber personInfoByFirstnameLastnameResponse =
                             new PersonInfoByAddressByStationNumber(
-                                person.getLastName(),
-                                person.getAge(person.medicalrecord.getBirthdate()),
-                                person.getPhone(),
-                                person.medicalrecord.getMedications(),
-                                person.medicalrecord.getAllergies()
+                                    person.getLastName(),
+                                    person.getAge(person.medicalrecord.getBirthdate()),
+                                    person.getPhone(),
+                                    person.medicalrecord.getMedications(),
+                                    person.medicalrecord.getAllergies()
                             );
                     personAtAddress.add(personInfoByFirstnameLastnameResponse);
                 }
@@ -311,8 +339,8 @@ public class FireStationService {
             if (!persons.isEmpty()) {
                 PersonByAddressByFirestationResponse personByAddressByFirestationResponse =
                         new PersonByAddressByFirestationResponse(
-                            address,
-                            personAtAddress
+                                address,
+                                personAtAddress
                         );
                 response.add(personByAddressByFirestationResponse);
             }

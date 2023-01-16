@@ -1,11 +1,12 @@
 package com.safetynet.safetynetalerts.servicesTest;
 
-import com.safetynet.safetynetalerts.Model.Person;
-import com.safetynet.safetynetalerts.Util.ImportData;
+import com.safetynet.safetynetalerts.model.Person;
+import com.safetynet.safetynetalerts.util.ImportData;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 @SpringBootTest
 public class ImportDataTest {
-    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("ImportDataTest") ;
+    private final static org.apache.logging.log4j.Logger logger = LogManager.getLogger("ImportDataTest");
     ImportData importData = new ImportData();
 
     public ImportDataTest() throws MalformedURLException {

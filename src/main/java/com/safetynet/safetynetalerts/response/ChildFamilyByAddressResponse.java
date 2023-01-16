@@ -1,6 +1,6 @@
-package com.safetynet.safetynetalerts.Response;
+package com.safetynet.safetynetalerts.response;
 
-import com.safetynet.safetynetalerts.Model.Person;
+import com.safetynet.safetynetalerts.model.Person;
 
 import java.util.List;
 
